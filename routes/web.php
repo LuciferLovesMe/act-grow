@@ -18,7 +18,10 @@ Route::get('/', function () {
     return view('layouts.template');
 });
 
-Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
+Route::middleware('auth')->group(function (){
+    Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
+});
+
 
 Auth::routes();
 

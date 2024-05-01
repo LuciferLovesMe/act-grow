@@ -12,7 +12,6 @@ use RealRashid\SweetAlert\Facades\Alert;
 class SertifikasiLembagaController extends Controller
 {
     private $param;
-
     /**
      * Display a listing of the resource.
      */
@@ -28,7 +27,7 @@ class SertifikasiLembagaController extends Controller
         }
         $this->param['data'] = $data->get();
 
-        return view('Sertifikasi.index', $this->param);
+        return view('sertifikasi.index', $this->param);
     }
 
     /**
@@ -36,7 +35,7 @@ class SertifikasiLembagaController extends Controller
      */
     public function create()
     {
-        return view('Sertifikasi.add');
+        return view('sertifikasi.add');
     }
 
     /**
@@ -55,7 +54,7 @@ class SertifikasiLembagaController extends Controller
                 // Dokumen upload
                 $file = $request->file('kebutuhan_sertifikat')[$key];
                 $filename = $file->getClientOriginalName();
-                $filePath = public_path() . '/upload/' . 'dokumen-sertifikasi/' . $idLembaga;
+                $filePath = public_path() . '/upload/' . 'dokumen-sertifikasi/' . $idLembaga . '/' . $namaSertifikat;
                 if(!File::isDirectory($filePath)) {
                     File::makeDirectory($filePath, 493, true);
                 }
@@ -65,7 +64,7 @@ class SertifikasiLembagaController extends Controller
                     'sertifikasi' => $namaSertifikat,
                     'id_lembaga' => $idLembaga,
                     'masa_berlaku' => $request->masa_berlaku[$key],
-                    'template_sertifikasi' => 'dokumen-sertifikasi/' . $idLembaga . '/' . $filename,
+                    'template_sertifikasi' => 'dokumen-sertifikasi/' . $idLembaga . '/' . $namaSertifikat . '/' . $filename,
                     'created_at' => now()
                 ]);
             }
@@ -100,7 +99,19 @@ class SertifikasiLembagaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try {
+            $this->param['data'] = DB::table('template_sertifikasi')
+                ->where('id', $id)
+                ->first();
+
+            return view('sertifikasi.edit', $this->param);
+        } catch (Exception $e) {
+            Alert::error('Terjadi kesalahan.', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            Alert::error('Terjadi kesalahan.', $e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -108,7 +119,57 @@ class SertifikasiLembagaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            if($request->file('kebutuhan_sertifikat') != null) {
+                $idLembaga = DB::table('lembaga')
+                    ->where('id_user', auth()->user()->id)
+                    ->first()->id;
+                    
+                $file = $request->file('kebutuhan_sertifikat');
+                $filename = $file->getClientOriginalName();
+                $filePath = public_path() . '/upload/' . 'dokumen-sertifikasi/' . $idLembaga . '/' . $request->nama_sertifikat . '/' . $filename;
+                if(!File::isDirectory($filePath)) {
+                    File::makeDirectory($filePath, 493, true);
+                }
+                $file->move($filePath, $filename);
+
+                $filePathOld = DB::table('template_sertifikasi')
+                    ->where('id', $id)
+                    ->first();
+                unlink(public_path() . '/upload/' . $filePathOld->template_sertifikasi);
+
+                DB::table('template_sertifikasi')
+                    ->where('id', $id)
+                    ->update([
+                        'template_sertifikasi' => 'dokumen-sertifikasi/' . $idLembaga . '/' . $request->nama_sertifikat . '/' . $filename,
+                        'sertifikasi' => $request->nama_sertifikat,
+                        'masa_berlaku' => $request->masa_berlaku,
+                        'updated_at' => now()
+                    ]);
+            } else {
+                DB::table('template_sertifikasi')
+                    ->where('id', $id)
+                    ->update([
+                        'sertifikasi' => $request->nama_sertifikat,
+                        'masa_berlaku' => $request->masa_berlaku,
+                        'updated_at' => now()
+                    ]);
+            }
+
+            DB::commit();
+            Alert::success('Sukses', 'Berhasil mengubah data template sertifikasi');
+            return redirect()->route('sertifikasi-lembaga.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
+            return redirect()->back();
+
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
+            return redirect()->back();
+        } 
     }
 
     /**
