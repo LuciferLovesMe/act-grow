@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SertifikasiLembagaController extends Controller
 {
@@ -72,13 +73,17 @@ class SertifikasiLembagaController extends Controller
             DB::table('template_sertifikasi')
                 ->insert($dataPost);
             DB::commit();
-            return 'ok';
+
+            Alert::success('Sukses', 'Berhasil menambahkan data sertifikasi.')->autoClose(10000);
+            return redirect()->route('sertifikasi-lembaga.index');
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
+            Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
+            return redirect()->back();
         } catch (QueryException $e) {
             DB::rollBack();
-            return $e;
+            Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
+            return redirect()->back();
         }
     }
 

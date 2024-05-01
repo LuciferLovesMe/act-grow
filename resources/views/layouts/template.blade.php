@@ -37,6 +37,7 @@
 </head>
 
 <body>
+  @include('sweetalert::alert')
 
   <!-- ======= Top Bar ======= -->
   <section id="topbar" class="d-flex align-items-center">
