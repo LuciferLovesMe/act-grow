@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SertifikasiLembagaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('layouts.template');
 });
+
+Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
 
 Auth::routes();
 
