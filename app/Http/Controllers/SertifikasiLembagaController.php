@@ -17,14 +17,7 @@ class SertifikasiLembagaController extends Controller
      */
     public function index()
     {
-        $data = DB::table('template_sertifikasi');
-        if(auth()->user()->role == 'Lembaga') {
-            $idLembaga = DB::table('lembaga')
-                ->where('id_user', auth()->user()->id)
-                ->first();
-            
-            $data->where('id_lembaga', $idLembaga->id);
-        }
+        $data = DB::table('lembaga');
         $this->param['data'] = $data->get();
 
         return view('sertifikasi.index', $this->param);
@@ -91,7 +84,24 @@ class SertifikasiLembagaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $this->param['data'] = DB::table('lembaga')
+            ->where('id', $id)
+            ->first();
+        $this->param['dataSertifikasi'] = DB::table('template_Sertifikasi')
+            ->where('id_lembaga', $id)
+            ->get();
+        if(auth()->check()) {
+            $idLembaga = DB::table('lembaga')
+                ->where('id_user', auth()->user()->id)
+                ->first()->id;
+            if($id == $idLembaga) {
+                $this->param['canEdit'] = true;
+            } else 
+                $this->param['canEdit'] = false;
+        } else
+            $this->param['canEdit'] = false;
+        
+        return view('sertifikasi.show', $this->param);
     }
 
     /**
@@ -178,5 +188,33 @@ class SertifikasiLembagaController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function showDetailSertifikasi($id) {
+        $this->param['data'] = DB::table('template_sertifikasi')
+            ->where('id', $id)
+            ->first();
+        
+        if(auth()->check()) {
+            $idLembaga = DB::table('lembaga')
+                ->where('id_user', auth()->user()->id)
+                ->first()->id;
+            if($idLembaga == $this->param['data']->id_lembaga) {
+                $this->param['canEdit'] = true;
+            } else 
+                $this->param['canEdit'] = false;
+        } else
+            $this->param['canEdit'] = false;
+            
+        return view('sertifikasi.detail-sertifikasi', $this->param);
+    }
+
+    public function downloadKetentuan($id) {
+        $filePath = DB::table('template_Sertifikasi')
+            ->where('id', $id)
+            ->first();
+
+        $file = public_path() .'/upload/' . $filePath->template_sertifikasi;
+        return response()->download($file);
     }
 }

@@ -18,9 +18,14 @@ Route::get('/', function () {
     return view('layouts.template');
 });
 
-Route::middleware('auth')->group(function (){
+// Route::middleware('auth')->group(function (){
     Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
-});
+
+    // Show Detail sertifikasi
+    Route::get('/sertifikasi-lembaga/detail-sertifikasi/{id}', [SertifikasiLembagaController::class, 'showDetailSertifikasi'])->name('show-detail-sertifikasi');
+    // Route download ketentuan sertifikasi
+    Route::get('/download-sertifikasi/{id}', [SertifikasiLembagaController::class, 'downloadKetentuan'])->name('download-ketentuan-sertifikasi');
+// });
 
 
 Auth::routes();
