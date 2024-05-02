@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <img src="" alt="" width="100%">
-                    <a href="" class="btn btn-success">Permintaan Sertifikasi</a>
+                    <a href="{{ route('lihat-permintaaan') }}" class="btn btn-success">Permintaan Sertifikasi</a>
                 </div>
             </div>
         </div>

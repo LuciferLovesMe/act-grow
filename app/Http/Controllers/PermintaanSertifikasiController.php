@@ -136,4 +136,32 @@ class PermintaanSertifikasiController extends Controller
     {
         //
     }
+
+    public function lihatPermintaan(Request $request) {
+        try {
+            $idPetani = DB::table('petani')
+                ->where('id_user', auth()->user()->id)
+                ->first()?->id;
+
+            $this->param['data'] = DB::table('sertifikasi')
+                ->where('id_petani', $idPetani)
+                ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+                ->select(
+                    'sertifikasi.*',
+                    'template_sertifikasi.sertifikasi'
+                )
+                ->orderBy('sertifikasi.id', 'desc')
+                ->first();
+                
+            return view('permintaan-sertifikasi.lihat-permintaan', $this->param);
+        } catch (Exception $e) {
+            return $e;
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            return $e;
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
 }
