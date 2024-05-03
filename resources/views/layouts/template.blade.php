@@ -5,13 +5,13 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>BizLand Bootstrap Template - Index</title>
+  <title>Act Grow</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-  <link href="{{ asset('assets/img/apple-touch-icon.png" rel') }}="apple-touch-icon">
+  <link href="{{ asset('assets/img/logo_actgrow.png') }}" rel="icon">
+  <link href="{{ asset('assets/img/logo_actgrow.png') }}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -27,6 +27,9 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
+  {{-- Fontawesome --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
   <!-- =======================================================
   * Template Name: BizLand
   * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
@@ -37,6 +40,7 @@
 </head>
 
 <body>
+  @include('sweetalert::alert')
 
   <!-- ======= Top Bar ======= -->
   <section id="topbar" class="d-flex align-items-center">
@@ -179,6 +183,9 @@
 
   <!-- Template Main JS File -->
   <script src="{{asset('assets/js/main.js')}}"></script>
+
+  {{-- Jquery --}}
+  <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
 
   {{-- custom script --}}
   @stack('custom-script')
