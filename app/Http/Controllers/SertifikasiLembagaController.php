@@ -217,4 +217,46 @@ class SertifikasiLembagaController extends Controller
         $file = public_path() .'/upload/' . $filePath->template_sertifikasi;
         return response()->download($file);
     }
+
+    public function showPermintaanSertifikasi($id) {
+        $this->param['dataSertifikasi'] = DB::table('template_sertifikasi')
+            ->where('id', $id)
+            ->first();
+        $this->param['listSertifikasi'] = DB::table('sertifikasi as s')
+            ->where('s.id_template_sertifikasi', $id)
+            ->join('template_sertifikasi as t', 't.id', 's.id_template_sertifikasi')
+            ->join('petani as p', 'p.id', 's.id_petani')
+            ->select(
+                's.*',
+                't.sertifikasi',
+                'p.nama_petani'
+            )
+            ->get();
+
+        return view('sertifikasi.show-permintaan', $this->param);
+    }
+
+    public function detailPermintaanSertifikasi($id) {
+        $this->param['data'] = DB::table('sertifikasi as s')
+            ->where('s.id', $id)
+            ->join('template_sertifikasi as t', 't.id', 's.id_template_sertifikasi')
+            ->join('petani as p', 'p.id', 's.id_petani')
+            ->select(
+                's.*',
+                't.sertifikasi',
+                'p.nama_petani'
+            )
+            ->first();
+
+        return view('Sertifikasi.detail-permintaan', $this->param);
+    }
+
+    public function downloadKetentuanPetani($id) {
+        $filePath = DB::table('sertifikasi')
+            ->where('id', $id)
+            ->first();
+
+        $file = public_path() .'/upload/' . $filePath->berkas_sertifikasi;
+        return response()->download($file);
+    }
 }
