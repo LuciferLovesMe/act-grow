@@ -30,6 +30,12 @@
   {{-- Fontawesome --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+
   <!-- =======================================================
   * Template Name: BizLand
   * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
@@ -100,6 +106,10 @@
   </section><!-- End Hero --> --}}
 
   <main id="main">
+    {{-- Modal --}}
+    @yield('modal')
+    {{-- End Modal --}}
+
     {{-- Content --}}
     @yield('content')
     {{-- End Content --}}

@@ -138,7 +138,7 @@ class SertifikasiLembagaController extends Controller
                     
                 $file = $request->file('kebutuhan_sertifikat');
                 $filename = $file->getClientOriginalName();
-                $filePath = public_path() . '/upload/' . 'dokumen-sertifikasi/' . $idLembaga . '/' . $request->nama_sertifikat . '/' . $filename;
+                $filePath = public_path() . '/upload/' . 'dokumen-sertifikasi/' . $idLembaga . '/' . $request->nama_sertifikat;
                 if(!File::isDirectory($filePath)) {
                     File::makeDirectory($filePath, 493, true);
                 }
@@ -257,6 +257,88 @@ class SertifikasiLembagaController extends Controller
             ->first();
 
         $file = public_path() .'/upload/' . $filePath->berkas_sertifikasi;
+        return response()->download($file);
+    }
+
+    public function gantiStatus(Request $request) {
+        DB::beginTransaction();
+        $message = '';
+
+        try {
+            if ($request->get('status') == 0 || $request->get('status') == '0') 
+                $status = 'dibatalkan';
+            else if($request->get('status') == 1 ||$request->get('status') == '1')
+                $status = 'dalam proses';
+            DB::table('sertifikasi')
+                ->where('id', $request->get('id')) 
+                ->update([
+                    'status_sertifikasi' => $status
+                ]);
+
+            $message = 'sukses';
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            $message = $e->getMessage();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            $message = $e->getMessage();
+        } finally {
+            return response()->json([
+                'message' => $message
+            ]);
+        }
+    }
+
+    public function uploadSertifikat(Request $request) {
+        DB::beginTransaction();
+        try {
+            $data =  DB::table('sertifikasi as s')
+                ->where('s.id', $request->id)
+                ->join('template_sertifikasi as t', 't.id', 's.id_template_sertifikasi')
+                ->join('petani as p', 'p.id', 's.id_petani')
+                ->select(
+                    's.*',
+                    't.sertifikasi',
+                    'p.nama_petani'
+                )
+                ->first();
+                
+            $file = $request->file('sertifikat');
+            $filename = $file->getClientOriginalName();
+            $filePath = public_path() . '/upload/' . 'sertifikat-petani/' . $data->id . '/' . $data->id_petani;
+            if(!File::isDirectory($filePath)) {
+                File::makeDirectory($filePath, 493, true);
+            }
+            $file->move($filePath, $filename);
+
+            DB::table('sertifikasi')
+                ->where('id', $request->id)
+                ->update([
+                    'sertifikat' => 'sertifikat-petani/' . $data->id . '/' . $data->id_petani . '/' . $filename,
+                    'status_sertifikasi' => 'selesai'
+                ]);
+            
+            DB::commit();
+            Alert::success('Sukses', 'Berhasil menambah data sertifikat.');
+            return redirect()->route('show-permintaan-sertifikasi', $data->id_template_sertifikasi);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function downloadSertifikat($id) {
+        $filePath = DB::table('sertifikasi')
+            ->where('id', $id)
+            ->first();
+
+        $file = public_path() .'/upload/' . $filePath->sertifikat;
         return response()->download($file);
     }
 }

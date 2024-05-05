@@ -73,7 +73,7 @@ class PermintaanSertifikasiController extends Controller
                 ->insert([
                     'id_petani' => $idPetani,
                     'id_template_sertifikasi' => $idTemplateSertifikasi,
-                    'status_sertifikasi' => 'dalam proses',
+                    'status_sertifikasi' => 'menunggu verifikasi',
                     'berkas_sertifikasi' => 'dokumen-permintaan-sertifikasi/' . $idTemplateSertifikasi . '/' . $idPetani . '/' . $filename,
                     'created_at' => now()
                 ]);
