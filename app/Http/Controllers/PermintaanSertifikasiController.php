@@ -151,7 +151,7 @@ class PermintaanSertifikasiController extends Controller
                     'template_sertifikasi.sertifikasi'
                 )
                 ->orderBy('sertifikasi.id', 'desc')
-                ->first();
+                ->get();
                 
             return view('permintaan-sertifikasi.lihat-permintaan', $this->param);
         } catch (Exception $e) {
