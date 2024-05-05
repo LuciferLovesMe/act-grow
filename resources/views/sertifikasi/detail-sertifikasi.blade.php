@@ -18,6 +18,9 @@
                         <a href="{{ route('sertifikasi-lembaga.edit', $data->id) }}" class="btn btn-success">
                             Ubah
                         </a>
+                        <a href="{{ route('show-permintaan-sertifikasi', $data->id) }}" class="btn btn-success">
+                            Permintaan Sertifikasi
+                        </a>
                     @endif
                 </div>
             </div>
