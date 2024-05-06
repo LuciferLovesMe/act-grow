@@ -73,7 +73,7 @@ class PermintaanSertifikasiController extends Controller
                 ->insert([
                     'id_petani' => $idPetani,
                     'id_template_sertifikasi' => $idTemplateSertifikasi,
-                    'status_sertifikasi' => 'dalam proses',
+                    'status_sertifikasi' => 'menunggu verifikasi',
                     'berkas_sertifikasi' => 'dokumen-permintaan-sertifikasi/' . $idTemplateSertifikasi . '/' . $idPetani . '/' . $filename,
                     'created_at' => now()
                 ]);
@@ -151,7 +151,7 @@ class PermintaanSertifikasiController extends Controller
                     'template_sertifikasi.sertifikasi'
                 )
                 ->orderBy('sertifikasi.id', 'desc')
-                ->first();
+                ->get();
                 
             return view('permintaan-sertifikasi.lihat-permintaan', $this->param);
         } catch (Exception $e) {

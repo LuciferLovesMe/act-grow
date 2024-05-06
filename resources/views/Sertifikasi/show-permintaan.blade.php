@@ -20,11 +20,15 @@
                         <tbody>
                             @forelse ($listSertifikasi as $key => $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama_petani }}</td>
-                                    <td>{{ ucwords($item->status_sertifikasi) }}</td>
-                                    <td>
-                                        <a href="{{ route('detail-permintaan-sertifikasi', $item->id) }}" class="btn btn-success">Detail</a>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $item->nama_petani }}</td>
+                                    <td class="text-center">{{ ucwords($item->status_sertifikasi) }}</td>
+                                    <td class="text-center">
+                                        @if ($item->status_sertifikasi == 'selesai')
+                                            <a href="{{ route('download-sertifikat', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Lihat Sertifikat</a>
+                                        @else
+                                            <a href="{{ route('detail-permintaan-sertifikasi', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Detail</a>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
