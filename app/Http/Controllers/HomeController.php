@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
+    private $param;
     /**
      * Create a new controller instance.
      *
@@ -21,8 +23,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        if($request->has('id')) {
+            $id = $request->get('id');
+            $this->param['data'] = DB::table('lembaga')
+                ->where('lembaga.id', $id)
+                ->join('users', 'users.id', 'lembaga.id_user')
+                ->select(
+                    'lembaga.*',
+                    'users.email'
+                )
+                ->first();
+            $this->param['dataSertifikasi'] = DB::table('template_Sertifikasi')
+                ->where('id_lembaga', $id)
+                ->get();
+
+            return view('detail', $this->param);
+        }
+        $this->param['data'] = DB::table('lembaga')->get();
+
+        return view('home', $this->param);
     }
 }

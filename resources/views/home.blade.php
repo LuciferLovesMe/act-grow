@@ -1,23 +1,37 @@
-@extends('layouts.app')
+@extends('layouts.template')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+    <section class="inner-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="list-group">
+                        @forelse ($data as $item)
+                            <a href="{{ route('detail-lembaga') }}?id={{ $item->id }}" class="list-group-item list-group-item-action mt-3" aria-current="true">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ $item->nama_lembaga }}</h5>
+                                    {{-- <small>3 days ago</small> --}}
+                                </div>
+                                <p class="mb-1">Some placeholder content in a paragraph.</p>
+                                <small>And some small print.</small>
+                            </a>
+                        @empty
+                            <a href="#" class="list-group-item list-group-item-action mt-3" aria-current="true">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Tidak ada data tersedia</h5>
+                                    {{-- <small>3 days ago</small> --}}
+                                </div>
+                                {{-- <p class="mb-1">Some placeholder content in a paragraph.</p> --}}
+                                {{-- <small>And some small print.</small> --}}
+                            </a>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 @endsection
+
+@push('custom-script')
+    
+@endpush
