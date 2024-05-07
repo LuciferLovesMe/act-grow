@@ -1,48 +1,40 @@
 @extends('layouts.template')
 
 @section('content')
-    <div class="inner-page mt-3">
-        <div class="container">
-            {{-- <div class="row justify-content-center">
-                <div class="col-md-4 text-center">
-                    <h4><b>{{ $data->sertifikasi }}</b></h4>
-                    <hr>
-                    <h1><i class="fa fa-file"></i></h1>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-3 text-center">
-                    <p>{{ ucwords($data->status_sertifikasi) }}</p>
-                    <hr>
-                </div>    
-            </div> --}}
+    <div class="inner-page">
+        <div class="container mt-3">
             <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>{{ $dataSertifikasi->sertifikasi }}</h3>
+                </div>
                 <div class="col-md-12 table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
-                                <th class="text-center">Nama Sertifikat</th>
-                                <th class="text-center">Status Sertifikasi</th>
+                                <th class="text-center">Nama Petani</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($data as $key => $item)
+                            @forelse ($listSertifikasi as $key => $item)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td class="text-center">{{ $item->sertifikasi }}</td>
+                                    <td class="text-center">{{ $item->nama_petani }}</td>
                                     <td class="text-center">{{ ucwords($item->status_sertifikasi) }}</td>
                                     <td class="text-center">
                                         @if ($item->status_sertifikasi == 'selesai')
                                             <a href="{{ route('download-sertifikat', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Lihat Sertifikat</a>
                                         @else
-                                            -
+                                            <a href="{{ route('detail-permintaan-sertifikasi', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Detail</a>
                                         @endif
                                     </td>
                                 </tr>
                             @empty
-                                
+                                <tr class="text-center">
+                                    <td colspan="4" class="text-center">Tidak ada data.</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>

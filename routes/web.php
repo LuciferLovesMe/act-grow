@@ -29,8 +29,23 @@ Route::get('/', function () {
     // Route Permintaan Sertifikasi
     Route::resource('permintaan-sertifikasi', PermintaanSertifikasiController::class);
 
-    // Show Detail sertifikasi
-    Route::get('/sertifikasi-lembaga/detail-sertifikasi/{id}', [SertifikasiLembagaController::class, 'showDetailSertifikasi'])->name('show-detail-sertifikasi');
+    Route::prefix('/sertifikasi-lembaga')->group(function() {
+        // Show Detail sertifikasi
+        Route::get('/detail-sertifikasi/{id}', [SertifikasiLembagaController::class, 'showDetailSertifikasi'])->name('show-detail-sertifikasi');
+        // Permintaan Sertfikasi Index
+        Route::get('/show-permintaan-sertifikasi/{id}', [SertifikasiLembagaController::class, 'showPermintaanSertifikasi'])->name('show-permintaan-sertifikasi');
+        // Detail Permintaan Sertifikasi
+        Route::get('/detail-permintaan-sertifikasi/{id}', [SertifikasiLembagaController::class, 'detailPermintaanSertifikasi'])->name('detail-permintaan-sertifikasi');
+        // Download Ketentuan yang telah diupload petani
+        Route::get('/download-ketentuan-petani/{id}', [SertifikasiLembagaController::class, 'downloadKetentuanPetani'])->name('download-ketentuan-petani');
+        // Ganti Status Permintaan
+        Route::post('/ganti-status', [SertifikasiLembagaController::class, 'gantiStatus'])->name('ganti-status');
+        // Upload Sertifikat
+        Route::post('/upload-sertifikat', [SertifikasiLembagaController::class, 'uploadSertifikat'])->name('upload-sertifikat');
+        // Lihat Sertifikat
+        Route::get('/download-sertifikat/{id}', [SertifikasiLembagaController::class, 'downloadSertifikat'])->name('download-sertifikat');
+    });
+
     // Route download ketentuan sertifikasi
     Route::get('/download-sertifikasi/{id}', [SertifikasiLembagaController::class, 'downloadKetentuan'])->name('download-ketentuan-sertifikasi');
 // });
