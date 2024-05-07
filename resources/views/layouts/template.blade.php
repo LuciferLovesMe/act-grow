@@ -190,6 +190,8 @@
 
   {{-- Jquery --}}
   <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
+  {{-- Swal --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {{-- custom script --}}
   @stack('custom-script')
