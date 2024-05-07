@@ -92,8 +92,12 @@
           @if (auth()->check())
             <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a>
               <ul>
-                <li><a href="#"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
-                <li><a href="#"><span><i class="fa fa-file"></i></span>Sertifikasi</a></li>
+                <li><a href="#"><span><i class="fa fa-user"></i></span>Profil</a></li>
+                <li><a href="#" id="btn-logout"><span><i class="fa fa-arrow-right-from-bracket"></i></span>Logout</a></li>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
               </ul>
             </li>
           @endif
@@ -205,6 +209,25 @@
   @stack('custom-script')
   {{-- End Custom Script --}}
 
+  <script>
+    $("#btn-logout").on('click', function() {
+      Swal.fire({
+        title: "Konfirmasi Logout",
+        text: "Apakah Anda Yakin Ingin Logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya",
+        cancelButtonText: "Tidak"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $("#logout-form").submit()
+        }
+      });
+
+    })
+  </script>
 </body>
 
 </html>
