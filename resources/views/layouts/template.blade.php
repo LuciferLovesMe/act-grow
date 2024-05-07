@@ -89,6 +89,14 @@
           @else
           @endif
           <li><a class="nav-link scrollto" href="">Artikel</a></li>
+          @if (auth()->check())
+            <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a>
+              <ul>
+                <li><a href="#"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
+                <li><a href="#"><span><i class="fa fa-file"></i></span>Sertifikasi</a></li>
+              </ul>
+            </li>
+          @endif
       </nav><!-- .navbar -->
 
     </div>
