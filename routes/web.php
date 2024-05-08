@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PenilaianLembagaController;
 use App\Http\Controllers\PermintaanSertifikasiController;
 use App\Http\Controllers\SertifikasiLembagaController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('test-cek', function(){
+    return view('penilaian-lembaga.add');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/detail-lembaga', [HomeController::class, 'index'])->name('detail-lembaga');
@@ -28,6 +32,8 @@ Route::get('/detail-lembaga', [HomeController::class, 'index'])->name('detail-le
     Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
     // Route Permintaan Sertifikasi
     Route::resource('permintaan-sertifikasi', PermintaanSertifikasiController::class);
+    // Route Penilaian Lembaga
+    Route::resource('penilaian-lembaga', PenilaianLembagaController::class);
 
     Route::prefix('/sertifikasi-lembaga')->group(function() {
         // Show Detail sertifikasi

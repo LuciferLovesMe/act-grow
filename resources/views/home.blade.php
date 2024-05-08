@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="list-group">
                         @forelse ($data as $item)
-                            <a href="{{ route('detail-lembaga') }}?id={{ $item->id }}" class="list-group-item list-group-item-action mt-3" aria-current="true">
+                            <a href="{{ route('detail-lembaga') }}?id={{ $item->id }}" class="list-group-item list-group-item-action mt-3 border" aria-current="true">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{ $item->nama_lembaga }}</h5>
                                     {{-- <small>3 days ago</small> --}}

@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -39,6 +39,15 @@ class HomeController extends Controller
                 ->where('id_lembaga', $id)
                 ->get();
 
+            $this->param['dataReview'] = DB::table('penilaian')
+                ->where('id_lembaga', $id)
+                ->join('petani', 'petani.id', 'penilaian.id_petani')
+                ->select(
+                    'penilaian.*',
+                    'petani.nama_petani'
+                )
+                ->get();
+                
             return view('detail', $this->param);
         }
         $this->param['data'] = DB::table('lembaga')->get();
