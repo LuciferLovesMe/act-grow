@@ -22,6 +22,8 @@ Route::get('test-cek', function(){
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/detail-lembaga', [HomeController::class, 'index'])->name('detail-lembaga');
+Route::get('/profil-lembaga/{id}', [HomeController::class, 'profilLembaga'])->name('profil-lembaga');
+Route::post('/update-verif-lembaga', [HomeController::class, 'updateVerifLembaga'])->name('update-verif-lembaga');
 
 // Route::middleware('auth')->group(function (){
     // Route Upload Berkas ketentuan permintaan sertifikasi (Petani)

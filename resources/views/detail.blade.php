@@ -104,7 +104,23 @@
                     <h5>Started In {{ $data->tahun_berdiri }}</h5>
                 </div>
                 <div class="col-md-4 text-center">
-                    <img src="" alt="" width="100%">
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <img src="{{ asset('/upload/' . $data->foto_lembaga) }}" alt="" width="50%">
+                        </div>
+                        <div class="col-md-12 text-center">
+                            @if (auth()->check())
+                                @if (auth()->user()->role == 'Petani')
+                                    <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
+                                @elseif (auth()->user()->role == 'Lembaga')
+                                    <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
+                                @else
+                                    <a href="{{ route('profil-lembaga', $data->id) }}" class="btn btn-success">Ubah</a>
+                                    <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

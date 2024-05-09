@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class HomeController extends Controller
 {
@@ -53,5 +56,53 @@ class HomeController extends Controller
         $this->param['data'] = DB::table('lembaga')->get();
 
         return view('home', $this->param);
+    }
+
+    public function profilLembaga(Request $request, $id) {
+        try {
+            $this->param['data'] = DB::table('lembaga')
+                ->where('lembaga.id', $id)
+                ->join('users', 'users.id', 'lembaga.id_user')
+                ->select(
+                    'users.username',
+                    'users.email',
+                    'lembaga.*'
+                )
+                ->first();
+
+            return view('auth.detail-user', $this->param);
+        } catch (Exception $e) {
+            return redirect()->back();
+        }
+    }
+
+    public function updateVerifLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            if($request->has('verif')) {
+                DB::table('lembaga')
+                    ->where('id', $request->id_lembaga)
+                    ->update([
+                        'status_verifikasi' => 1
+                    ]);
+            } else {
+                DB::table('lembaga')
+                    ->where('id', $request->id_lembaga)
+                    ->update([
+                        'status_verifikasi' => 0
+                    ]);
+            }
+            DB::commit();
+            Alert::success('Sukses', 'Berhasil mengubah data lembaga');
+            return redirect()->route('index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
     }
 }
