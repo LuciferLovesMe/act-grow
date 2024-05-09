@@ -105,4 +105,13 @@ class HomeController extends Controller
             return redirect()->back();
         }
     }
+
+    public function downloadbuktiVerifLembaga($id) {
+        $filePath = DB::table('lembaga')
+            ->where('id', $id)
+            ->first();
+            
+        $file = public_path() .'/upload/' . $filePath->bukti_akreditasi;
+        return response()->download($file);
+    }
 }
