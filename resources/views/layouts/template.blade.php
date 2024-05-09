@@ -88,7 +88,7 @@
               @endif
           @else
           @endif
-          <li><a class="nav-link scrollto" href="">Artikel</a></li>
+          <li><a class="nav-link scrollto" href="{{ route('artikel.index') }}">Artikel</a></li>
           @if (auth()->check())
             <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a>
               <ul>
@@ -206,6 +206,8 @@
   <script src="{{ asset('assets/js/jquery-3.7.1.min.js') }}"></script>
   {{-- Swal --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {{-- CKEditor --}}
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 
   {{-- custom script --}}
   @stack('custom-script')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenilaianLembagaController;
 use App\Http\Controllers\PermintaanSertifikasiController;
@@ -26,6 +27,12 @@ Route::get('/profil-lembaga/{id}', [HomeController::class, 'profilLembaga'])->na
 Route::post('/update-verif-lembaga', [HomeController::class, 'updateVerifLembaga'])->name('update-verif-lembaga');
 Route::get('/download-bukti-verif-lembaga/{id}', [HomeController::class, 'downloadbuktiVerifLembaga'])->name('download-bukti-verif-lembaga');
 
+Route::prefix('/artikel')->group(function() {
+    Route::get('/list-report', [ArtikelController::class, 'listReport'])->name('list-report-artikel');
+    Route::post('/confirm-report', [ArtikelController::class, 'confirmReport'])->name('confirm-report');
+    Route::post('/report', [ArtikelController::class, 'report'])->name('report-artikel');
+});
+
 // Route::middleware('auth')->group(function (){
     // Route Upload Berkas ketentuan permintaan sertifikasi (Petani)
     Route::get('/permintaan-sertifikasi/upload-ketentuan', [PermintaanSertifikasiController::class, 'uploadKetentuan'])->name('upload-ketentuan');
@@ -37,6 +44,8 @@ Route::get('/download-bukti-verif-lembaga/{id}', [HomeController::class, 'downlo
     Route::resource('permintaan-sertifikasi', PermintaanSertifikasiController::class);
     // Route Penilaian Lembaga
     Route::resource('penilaian-lembaga', PenilaianLembagaController::class);
+    // Route Artikel
+    Route::resource('artikel', ArtikelController::class);
 
     Route::prefix('/sertifikasi-lembaga')->group(function() {
         // Show Detail sertifikasi
