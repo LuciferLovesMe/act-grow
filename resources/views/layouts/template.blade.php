@@ -76,12 +76,12 @@
         <ul>
           @if (auth()->check())
               @if (auth()->user()->role == 'Lembaga')
-                  <li><a class="nav-link scrollto active" href="">Lembaga Sertifikasi</a></li>
+                  <li><a class="nav-link scrollto active" href="{{ route('sertifikasi-lembaga.index') }}">Lembaga Sertifikasi</a></li>
                   <li><a class="nav-link scrollto" href="">Kontak</a></li>
               @else
                 <li class="dropdown"><a href="#"><span>Layanan</span> <i class="bi bi-chevron-down"></i></a>
                   <ul>
-                    <li><a href="#"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
+                    <li><a href="{{ route('permintaan-sertifikasi.index') }}"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
                     <li><a href="#"><span><i class="fa fa-file"></i></span>Sertifikasi</a></li>
                   </ul>
                 </li>
@@ -100,6 +100,8 @@
                 </form>
               </ul>
             </li>
+          @else
+            <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
           @endif
       </nav><!-- .navbar -->
 
