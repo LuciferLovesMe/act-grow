@@ -1630,16 +1630,16 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #fff;
-  padding: 0 0 30px 0;
+  background: #1A1A1A;
+  /* padding: 0 0 30px 0; */
   color: #444444;
   font-size: 14px;
-  background: #f1f6fe;
+  margin-top: 30px;
 }
 
 #footer .footer-newsletter {
   padding: 50px 0;
-  background: #f1f6fe;
+  background: #1A1A1A;
   text-align: center;
   font-size: 15px;
 }
@@ -1654,7 +1654,7 @@ section {
 
 #footer .footer-newsletter form {
   margin-top: 30px;
-  background: #fff;
+  background: #1A1A1A;
   padding: 6px 10px;
   position: relative;
   border-radius: 4px;
@@ -1677,7 +1677,7 @@ section {
   background: none;
   font-size: 16px;
   padding: 0 20px;
-  background: #106eea;
+  background: #1A1A1A;
   color: #fff;
   transition: 0.3s;
   border-radius: 0 4px 4px 0;
@@ -1685,12 +1685,11 @@ section {
 }
 
 #footer .footer-newsletter form input[type=submit]:hover {
-  background: #0d58ba;
+  background: #1A1A1A;
 }
 
 #footer .footer-top {
-  padding: 60px 0 30px 0;
-  background: #fff;
+  padding: 30px 0 30px 0;
 }
 
 #footer .footer-top .footer-contact {
@@ -1737,7 +1736,7 @@ section {
 
 #footer .footer-top .footer-links ul i {
   padding-right: 2px;
-  color: #106eea;
+  color: white;
   font-size: 18px;
   line-height: 1;
 }
@@ -1761,7 +1760,7 @@ section {
 
 #footer .footer-top .footer-links ul a:hover {
   text-decoration: none;
-  color: #106eea;
+  color: white;
 }
 
 #footer .footer-top .social-links a {
