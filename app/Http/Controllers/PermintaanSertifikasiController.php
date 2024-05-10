@@ -17,10 +17,7 @@ class PermintaanSertifikasiController extends Controller
      */
     public function index()
     {
-        $data = DB::table('lembaga');
-        $this->param['data'] = $data->get();
-
-        return view('permintaan-sertifikasi.index', $this->param);
+        return redirect()->route('index');
     }
 
     /**
