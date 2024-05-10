@@ -8,11 +8,13 @@
 
 @section('content')
     <div class="inner-page">
-        <div class="container h-100">
-            <div class="row h-100 justify-content-center align-items-center">
-                <div class="col-md-8" style="background-image: url('{{ asset('assets/img/background_login.png') }}'); background-repeat: no-repeat, no-repeat;">
-                    <h3><b>Masuk atau Daftar</b></h3>
-                    <p><b>Dapatkan informasi terbaru seputar pasar Indonesia, standar internasional, dan transaksi pribadi dalam satu akun. Pantau kebutuhan anda dengan lebih mudah bersama ACTGROW</b></p>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-md-8 align-items-center min-vh-100" style="background-image: url('{{ asset('assets/img/background_login.png') }}'); background-size: cover; background-position: center;">
+                    <div class="d-flex flex-column justify-content-center">
+                        {{-- <h3 class=""><b>Masuk atau Daftar</b></h3>
+                        <p class="d-flex flex-column justify-content-center"><b>Dapatkan informasi terbaru seputar pasar Indonesia, standar internasional, dan transaksi pribadi dalam satu akun. Pantau kebutuhan anda dengan lebih mudah bersama ACTGROW</b></p> --}}
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <form action="{{ route('login') }}" method="post" enctype="multipart/form-data">
@@ -23,9 +25,13 @@
                             <button class="btn btn-outline-secondary btn-password" type="button" id=""><i class="fa fa-eye"></i></button>
                         </div>
     
-                        <div class="d-flex justify-content-around mt-2">
-                            <button class="btn btn-success" type="submit">Login</button>
-                            <a href="{{ route('register') }}"><button class="btn btn-outline-secondary">Daftar</button></a>
+                        <div class="row mt-2">
+                            <div class="col-md-6">
+                                <button class="btn btn-success w-100" type="submit">Login</button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{{ route('register') }}"><button class="btn btn-outline-secondary w-100" type="button">Daftar</button></a>
+                            </div>
                         </div>
                     </form>
                 </div>
