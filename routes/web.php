@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PenilaianLembagaController;
 use App\Http\Controllers\PermintaanSertifikasiController;
 use App\Http\Controllers\SertifikasiLembagaController;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +17,29 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('test-cek', function(){
+    return view('penilaian-lembaga.add');
+});
 
-Route::get('/', function () {
-    return view('layouts.template');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/detail-lembaga', [HomeController::class, 'index'])->name('detail-lembaga');
+Route::get('/profil-lembaga/{id}', [HomeController::class, 'profilLembaga'])->name('profil-lembaga');
+Route::post('/update-verif-lembaga', [HomeController::class, 'updateVerifLembaga'])->name('update-verif-lembaga');
+Route::get('/download-bukti-verif-lembaga/{id}', [HomeController::class, 'downloadbuktiVerifLembaga'])->name('download-bukti-verif-lembaga');
+
+Route::prefix('/artikel')->group(function() {
+    Route::get('/list-report', [ArtikelController::class, 'listReport'])->name('list-report-artikel');
+    Route::post('/confirm-report', [ArtikelController::class, 'confirmReport'])->name('confirm-report');
+    Route::post('/report', [ArtikelController::class, 'report'])->name('report-artikel');
+});
+
+Route::prefix('/penilaian')->group(function() {
+    Route::post('/post', [SertifikasiLembagaController::class, 'postPenilaian'])->name('post-penilaian');
+    Route::post('/ubah', [SertifikasiLembagaController::class, 'ubahPenilaian'])->name('ubah-penilaian');
+    Route::post('/hapus-penilaian/{id}', [SertifikasiLembagaController::class, 'hapusPenilaian'])->name('hapus-penilaian');
+    Route::post('/post-lembaga', [SertifikasiLembagaController::class, 'postLembaga'])->name('post-lembaga');
+    Route::post('/ubah-lembaga', [SertifikasiLembagaController::class, 'ubahBalasanLembaga'])->name('ubah-lembaga');
+    Route::post('/hapus-lembaga/{id}', [SertifikasiLembagaController::class, 'hapusBalasanLembaga'])->name('hapus-lembaga');
 });
 
 // Route::middleware('auth')->group(function (){
@@ -28,6 +51,10 @@ Route::get('/', function () {
     Route::resource('sertifikasi-lembaga', SertifikasiLembagaController::class);
     // Route Permintaan Sertifikasi
     Route::resource('permintaan-sertifikasi', PermintaanSertifikasiController::class);
+    // Route Penilaian Lembaga
+    Route::resource('penilaian-lembaga', PenilaianLembagaController::class);
+    // Route Artikel
+    Route::resource('artikel', ArtikelController::class);
 
     Route::prefix('/sertifikasi-lembaga')->group(function() {
         // Show Detail sertifikasi

@@ -35,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -118,8 +118,8 @@ class RegisterController extends Controller
                         'no_hp_lembaga' => $request->no_hp,
                         'deskripsi_lembaga' => $request->deskripsi,
                         'id_user' => $user->id,
-                        'bukti_akreditasi' => $filenameAkreditasi != null ? 'dokumen-users/lembaga/' . $user->id . '/bukti-Foto/' . $filenameAkreditasi : null,
-                        'foto_lembaga' => $filenameFoto != null ? 'dokumen-users/lembaga/' . $user->id . '/bukti-Foto/' . $filenameFoto : null,
+                        'bukti_akreditasi' => $filenameAkreditasi != null ? 'dokumen-users/lembaga/' . $user->id . '/bukti-akreditasi/' . $filenameAkreditasi : null,
+                        'foto_lembaga' => $filenameFoto != null ? 'dokumen-users/lembaga/' . $user->id . '/bukti-foto/' . $filenameFoto : null,
                     ]);
                 
                 $dataSertifikasi = [];

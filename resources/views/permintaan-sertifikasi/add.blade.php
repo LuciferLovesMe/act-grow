@@ -13,9 +13,15 @@
                     <a href="{{ route('download-ketentuan-sertifikasi', $dataSertifikasi->id) }}">
                         <p>Download Berkas Disini <span><i class="fa fa-arrow-down"></i></span></p>
                     </a>
-                    <a href="{{ route('upload-ketentuan') }}?id={{ $dataSertifikasi->id }}">
-                        <p>Upload Berkas Disini <span><i class="fa fa-arrow-up-from-bracket"></i></span></p>
-                    </a>
+                    @if (auth()->check())
+                        @if (auth()->user()->role == 'Petani')
+                            <a href="{{ route('upload-ketentuan') }}?id={{ $dataSertifikasi->id }}">
+                                <p>Upload Berkas Disini <span><i class="fa fa-arrow-up-from-bracket"></i></span></p>
+                            </a>
+                        @endif
+                    @else
+                        
+                    @endif
                 </div>
             </div>
         </div>

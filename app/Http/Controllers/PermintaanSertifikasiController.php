@@ -139,19 +139,37 @@ class PermintaanSertifikasiController extends Controller
 
     public function lihatPermintaan(Request $request) {
         try {
-            $idPetani = DB::table('petani')
-                ->where('id_user', auth()->user()->id)
-                ->first()?->id;
+            if(auth()->user()->role == 'Petani') {
+                $idPetani = DB::table('petani')
+                    ->where('id_user', auth()->user()->id)
+                    ->first()?->id;
+    
+                $this->param['data'] = DB::table('sertifikasi')
+                    ->join('petani', 'petani.id', 'sertifikasi.id_petani')
+                    ->where('id_petani', $idPetani)
+                    ->where('template_sertifikasi.id_lembaga', $request->get('idLembaga'))
+                    ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+                    ->select(
+                        'sertifikasi.*',
+                        'template_sertifikasi.sertifikasi',
+                        'petani.nama_petani'
+                    )
+                    ->orderBy('sertifikasi.id', 'desc')
+                    ->get();
+            } else {
+                $this->param['data'] = DB::table('sertifikasi')
+                    ->join('petani', 'petani.id', 'sertifikasi.id_petani')
+                    ->where('template_sertifikasi.id_lembaga', $request->get('idLembaga'))
+                    ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+                    ->select(
+                        'sertifikasi.*',
+                        'template_sertifikasi.sertifikasi',
+                        'petani.nama_petani'
+                    )
+                    ->orderBy('sertifikasi.id', 'desc')
+                    ->get();
 
-            $this->param['data'] = DB::table('sertifikasi')
-                ->where('id_petani', $idPetani)
-                ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
-                ->select(
-                    'sertifikasi.*',
-                    'template_sertifikasi.sertifikasi'
-                )
-                ->orderBy('sertifikasi.id', 'desc')
-                ->get();
+            }
                 
             return view('permintaan-sertifikasi.lihat-permintaan', $this->param);
         } catch (Exception $e) {

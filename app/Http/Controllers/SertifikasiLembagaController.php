@@ -341,4 +341,149 @@ class SertifikasiLembagaController extends Controller
         $file = public_path() .'/upload/' . $filePath->sertifikat;
         return response()->download($file);
     }
+
+    public function postPenilaian(Request $request) {
+        DB::beginTransaction();
+        try {
+            $idPetani = DB::table('petani')
+                ->where('id_user', $request->id_petani)
+                ->first()?->id;
+            DB::table('penilaian')
+                ->insert([
+                    'id_lembaga' => $request->id_lembaga,
+                    'id_petani' => $idPetani,
+                    'komentar_petani' => $request->comment_petani,
+                    'nilai' => $request->rating,
+                    'created_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil menambahkan komentar.');
+            return redirect()->back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function ubahPenilaian(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_petani' => $request->comment_petani,
+                    'nilai' => $request->rating,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+            Alert::success('Sukses', 'Berhasil mengubah komentar');
+            return redirect()->back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    } 
+    
+    public function hapusPenilaian($id) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $id)
+                ->delete();
+            DB::commit();
+            Alert::success('Sukses', 'Berhasil mengubah komentar');
+            return redirect()->back();
+        } catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function postLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => $request->komentar_lembaga,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil membalas komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function hapusBalasanLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => null,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil menghapus balasan komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function ubahBalasanLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => $request->komentar_lembaga,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil mengubah balasan komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
 }
