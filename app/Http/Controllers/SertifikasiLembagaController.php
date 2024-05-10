@@ -362,12 +362,10 @@ class SertifikasiLembagaController extends Controller
             return redirect()->back();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch (QueryException $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }
@@ -388,12 +386,10 @@ class SertifikasiLembagaController extends Controller
             return redirect()->back();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch (QueryException $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }
@@ -410,12 +406,82 @@ class SertifikasiLembagaController extends Controller
             return redirect()->back();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch (QueryException $e) {
             DB::rollBack();
-            return $e;
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function postLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => $request->komentar_lembaga,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil membalas komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function hapusBalasanLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => null,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil menghapus balasan komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function ubahBalasanLembaga(Request $request) {
+        DB::beginTransaction();
+        try {
+            DB::table('penilaian')
+                ->where('id', $request->id)
+                ->update([
+                    'komentar_lembaga' => $request->komentar_lembaga,
+                    'updated_at' => now()
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil mengubah balasan komentar.');
+            return redirect()->back();
+        }catch (Exception $e) {
+            DB::rollBack();
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            DB::rollBack();
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }

@@ -46,10 +46,12 @@ class HomeController extends Controller
                 ->where('id_lembaga', $id)
                 ->join('petani', 'petani.id', 'penilaian.id_petani')
                 ->join('users as u', 'u.id', 'petani.id_user')
+                ->join('lembaga', 'lembaga.id', 'penilaian.id_lembaga')
                 ->select(
                     'penilaian.*',
                     'petani.nama_petani',
-                    'u.id as user_id_petani'
+                    'u.id as user_id_petani',
+                    'lembaga.id_user as user_id_lembaga'
                 )
                 ->get();
                 

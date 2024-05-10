@@ -94,6 +94,7 @@
 
 @section('modal')
     @include('penilaian-lembaga.modal')
+    @include('penilaian-lembaga.modal-lembaga')
 @endsection
 
 @section('content')
@@ -241,22 +242,69 @@
                                                         </div>
                                                         <div class="col-md-12 mx-3 mt-2 collapse" id="collapseExample-{{ $item->id }}">
                                                             @if ($item->komentar_lembaga != null)
-                                                                <div class="form-group row">
-                                                                    <div class="col">
-                                                                        <p class="font-weight-bold "><b>{{ $item->nama_lembaga }}</b></p>
+                                                                @if (auth()->check())
+                                                                    @if (auth()->user()->role == 'Lembaga' && $item?->user_id_lembaga == auth()->user()->id)
+                                                                        <div class="form-group row">
+                                                                            <div class="col">
+                                                                                <p class="font-weight-bold "><b>{{ $data->nama_lembaga }}</b></p>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <button class="border-0" style="background-color: #fff" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                                    <i class="fa fa-ellipsis-vertical"></i>
+                                                                                </button>
+                                                                                <ul class="dropdown-menu">
+                                                                                    <li><a class="dropdown-item" id="ubah-komentar-lembaga" data-id="{{ $item->id }}" data-komentar="{{ $item->komentar_lembaga }}" href="#" data-bs-toggle="modal" data-bs-target="#exampleModalLembaga">Ubah</a></li>
+                                                                                    <li><a class="dropdown-item" id="hapus-komentar-lembaga" href="#">Hapus</a></li>
+                                                                                </ul>
+
+                                                                                <form action="{{ route('hapus-lembaga', $item->id) }}" method="POST" enctype="multipart/form-data" id="form-hapus-lembaga">
+                                                                                    @csrf
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <div class="col">
+                                                                                <p>{{ $item->komentar_lembaga }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    @endif
+                                                                @else
+                                                                    <div class="form-group row">
+                                                                        <div class="col">
+                                                                            <p class="font-weight-bold "><b>{{ $data->nama_lembaga }}</b></p>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="form-group row">
-                                                                    <div class="col">
-                                                                        <p>{{ $item->komentar_petani }}</p>
+                                                                    <div class="form-group row">
+                                                                        <div class="col">
+                                                                            <p>{{ $item->komentar_lembaga }}</p>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                @endif
                                                             @else
-                                                                <div class="form-group row">
-                                                                    <div class="col">
-                                                                        <p>Tidak Ada Komentar</p>
+                                                                @if (auth()->check())
+                                                                    @if (auth()->user()->role == 'Lembaga' && $item?->user_id_lembaga == auth()->user()->id)
+                                                                        <div class="form-group row">
+                                                                            <form action="{{ route('post-lembaga') }}" method="post" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <input type="hidden" name="id" value="{{ $item->id }}">
+                                                                                <div class="card border-0">
+                                                                                    <div class="card-body">
+                                                                                        <textarea name="komentar_lembaga" id="komentar_lembaga" placeholder="Komentar Lembaga" class="form-control"></textarea>
+                                                                                    </div>
+                                                                                    <div class="card-footer text-right align-items-right d-flex justify-content-end">
+                                                                                        <button class="btn btn-success ml-3">Simpan</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    @endif
+                                                                @else
+                                                                    <div class="form-group row">
+                                                                        <div class="col">
+                                                                            <p>Tidak Ada Komentar</p>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
+                                                                @endif
                                                             @endif
                                                         </div>
                                                     </div>
@@ -318,6 +366,31 @@
             $("#id-penilaian").val(id)
             $("#comment-petani").val(komen)
             $(`#star-modal-${rating}`).attr('checked', true)
+        })
+
+        $("#hapus-komentar-lembaga").on('click', function(e) {
+            Swal.fire({
+                title: "Konfirmasi Hapus",
+                text: "Apakah Anda Yakin Ingin Menghapus Balasan?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#form-hapus-lembaga").submit()
+                }
+            });
+        })
+
+        $("#ubah-komentar-lembaga").on('click', function() {
+            var id = $(this).data('id')
+            var komen = $(this).data('komentar')
+            
+            $("#id-penilaian-lembaga").val(id)
+            $("#comment-lembaga").val(komen)
         })
     </script>
 @endpush
