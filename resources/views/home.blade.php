@@ -19,7 +19,7 @@
                 <div class="col-md-12 p-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <h1>Penjelasan Sertifikasi Organik</h1>
+                            <h2>Penjelasan Sertifikasi Organik</h2>
                             <hr>
                         </div>
                         <div class="col-md-6">
@@ -32,7 +32,8 @@
                 <div class="col-md-8 mt-3">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Lembaga yang Bekerja Sama dengan PT. ACTGROW</h4>
+                            <h4><b>Lembaga yang Bekerja Sama dengan PT. ACTGROW</b></h4>
+                            <hr>
                         </div>
                         @forelse ($data as $item)
                             <div class="col-md-6 p-2">
@@ -65,10 +66,28 @@
                         @endforelse
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 mt-3">
                     <h4><b>Produk Sertifikasi PT ACTGROW</b></h4>
                     <hr>
-
+                        @forelse ($listLayanan as $item)
+                            <ul>
+                                <li>
+                                    @if (auth()->check())
+                                        @if (auth()->user()->role == 'Petani')
+                                            <a href="{{ route('permintaan-sertifikasi.create') }}?id={{ $item->id }}">{{ $item->sertifikasi }}</a>
+                                        @else
+                                            <a href="{{ route('show-detail-sertifikasi', $item->id) }}">{{ $item->sertifikasi }}</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('show-detail-sertifikasi', $item->id) }}">{{ $item->sertifikasi }}</a>
+                                    @endif
+                                </li>
+                            </ul>
+                        @empty
+                            <ul>
+                                <li>Tidak Ada Sertifikat Tersedia.</li>
+                            </ul>
+                        @endforelse
                     <br>
                     <h4 class="mt-3"><b>Informasi Tambahan</b></h4>
                     <hr>
@@ -76,6 +95,10 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <img src="{{ asset('assets/img/informasi_tambahan.png') }}" alt="">
+                            </div>
+                            <br>
+                            <div class="col-md-12 text-center">
+                                <p>Sertifikasi Produk Organik</p>
                             </div>
                             <div class="col-md-12 text-center">
                                 <a href="{{ asset('assets/img/informasi_tambahan.png') }}" download="" class="btn btn-success">Download Brosur</a>

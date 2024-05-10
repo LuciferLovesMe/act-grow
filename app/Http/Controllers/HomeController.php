@@ -64,6 +64,10 @@ class HomeController extends Controller
                 DB::raw("IFNULL((SELECT COUNT(*) FROM penilaian as p WHERE id_lembaga = lembaga.id), 0) as komen")
             )
             ->get();
+        $this->param['listLayanan'] = DB::table('template_sertifikasi')
+            ->orderBy('id', 'desc')
+            ->limit(8)
+            ->get();
             
         return view('home', $this->param);
     }
