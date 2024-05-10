@@ -97,6 +97,18 @@
     @include('penilaian-lembaga.modal-lembaga')
 @endsection
 
+@section('hero')
+    <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+        {{-- <h1>Welcome to <span>BizLand</span></h1>
+        <h2>We are team of talented designers making websites with Bootstrap</h2>
+        <div class="d-flex">
+        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+        </div> --}}
+    </div>
+    </section>
+@endsection
+
 @section('content')
     <div class="inner-page">
         <div class="container mt-3">
@@ -325,7 +337,17 @@
                         <hr>
                         @forelse ($dataSertifikasi as $item)
                             <ul>
-                                <li><a href="{{ route('permintaan-sertifikasi.create') }}?id={{ $item->id }}">{{ $item->sertifikasi }}</a></li>
+                                <li>
+                                    @if (auth()->check())
+                                        @if (auth()->user()->role == 'Petani')
+                                            <a href="{{ route('permintaan-sertifikasi.create') }}?id={{ $item->id }}">{{ $item->sertifikasi }}</a>
+                                        @else
+                                            <a href="{{ route('show-detail-sertifikasi', $item->id) }}">{{ $item->sertifikasi }}</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('show-detail-sertifikasi', $item->id) }}">{{ $item->sertifikasi }}</a>
+                                    @endif
+                                </li>
                             </ul>
                         @empty
                             <ul>

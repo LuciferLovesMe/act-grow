@@ -57,8 +57,18 @@ class HomeController extends Controller
                 
             return view('detail', $this->param);
         }
-        $this->param['data'] = DB::table('lembaga')->get();
-
+        $this->param['data'] = DB::table('lembaga')
+            ->select(
+                'lembaga.*',
+                DB::raw("IFNULL((SELECT TRUNCATE(AVG(nilai), 1) FROM penilaian as p WHERE id_lembaga = lembaga.id), 0) as nilai"),
+                DB::raw("IFNULL((SELECT COUNT(*) FROM penilaian as p WHERE id_lembaga = lembaga.id), 0) as komen")
+            )
+            ->get();
+        $this->param['listLayanan'] = DB::table('template_sertifikasi')
+            ->orderBy('id', 'desc')
+            ->limit(8)
+            ->get();
+            
         return view('home', $this->param);
     }
 

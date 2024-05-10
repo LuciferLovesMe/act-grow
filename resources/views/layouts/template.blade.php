@@ -76,12 +76,12 @@
         <ul>
           @if (auth()->check())
               @if (auth()->user()->role == 'Lembaga')
-                  <li><a class="nav-link scrollto active" href="{{ route('sertifikasi-lembaga.index') }}">Lembaga Sertifikasi</a></li>
+                  <li><a class="nav-link scrollto active" href="{{ route('index') }}">Lembaga Sertifikasi</a></li>
                   <li><a class="nav-link scrollto" href="">Kontak</a></li>
               @else
                 <li class="dropdown"><a href="#"><span>Layanan</span> <i class="bi bi-chevron-down"></i></a>
                   <ul>
-                    <li><a href="{{ route('permintaan-sertifikasi.index') }}"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
+                    <li><a href="{{ route('index') }}"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
                     <li><a href="#"><span><i class="fa fa-file"></i></span>Sertifikasi</a></li>
                   </ul>
                 </li>
@@ -108,18 +108,11 @@
     </div>
   </header><!-- End Header -->
 
-  {{-- <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
-    <div class="container" data-aos="zoom-out" data-aos-delay="100">
-      <h1>Welcome to <span>BizLand</span></h1>
-      <h2>We are team of talented designers making websites with Bootstrap</h2>
-      <div class="d-flex">
-        <a href="#about" class="btn-get-started scrollto">Get Started</a>
-      </div>
-    </div>
-  </section><!-- End Hero --> --}}
+  <!-- ======= Hero Section ======= -->
+  @yield('hero')
+  <!-- End Hero -->
 
-  <main id="main">
+  <main id="main mb-3">
     {{-- Modal --}}
     @yield('modal')
     {{-- End Modal --}}
@@ -131,56 +124,30 @@
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="footer-top">
+  <footer id="footer" style="background-color: #1A1A1A !important;">
+    <div class="footer-top" class="mt-3" style="background-color: #1A1A1A !important;">
       <div class="container">
         <div class="row">
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>BizLand<span>.</span></h3>
-            <p>
-              A108 Adam Street <br>
-              New York, NY 535022<br>
-              United States <br><br>
-              <strong>Phone:</strong> +1 5589 55488 55<br>
-              <strong>Email:</strong> info@example.com<br>
-            </p>
+          <div class="col-lg-4 col-md-6 footer-contact text-center ms-auto">
+              <img src="{{ asset('assets/img/logo_actgrow.png') }}" style="width: 60%" alt="">
           </div>
 
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Useful Links</h4>
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Kontak</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="fa fa-phone"></i> <a class="p-2" href="">+638123</a></li>
+              <li><i class="fa fa-envelope"></i> <a class="p-2" href="">customer.service@actgrow.com</a></li>
+              <li><i class="fa fa-location-pin"></i> <a class="p-2" href="#"><b>Universitas Jember</b> <br>Jl. Kalimantan no 37</a></li>
             </ul>
           </div>
 
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Services</h4>
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Layanan</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+              <li><a href="#">Profil Lembaga Sertifikasi</a></li>
+              <li><a href="#">Daftar Sertifikasi</a></li>
             </ul>
           </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Our Social Networks</h4>
-            <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
-            <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
