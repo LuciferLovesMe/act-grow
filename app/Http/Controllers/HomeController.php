@@ -57,8 +57,14 @@ class HomeController extends Controller
                 
             return view('detail', $this->param);
         }
-        $this->param['data'] = DB::table('lembaga')->get();
-
+        $this->param['data'] = DB::table('lembaga')
+            ->select(
+                'lembaga.*',
+                DB::raw("IFNULL((SELECT TRUNCATE(AVG(nilai), 1) FROM penilaian as p WHERE id_lembaga = lembaga.id), 0) as nilai"),
+                DB::raw("IFNULL((SELECT COUNT(*) FROM penilaian as p WHERE id_lembaga = lembaga.id), 0) as komen")
+            )
+            ->get();
+            
         return view('home', $this->param);
     }
 
