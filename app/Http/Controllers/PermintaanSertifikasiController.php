@@ -34,6 +34,10 @@ class PermintaanSertifikasiController extends Controller
         $this->param['dataUser'] = DB::table('petani')
             ->where('id_user', auth()->user()->id)
             ->first();
+        $this->param['data'] = DB::table('lembaga')
+            ->where('t.id', $request->get('id'))
+            ->join('template_sertifikasi as t', 't.id_lembaga', 'lembaga.id')
+            ->first();
 
         return view('permintaan-sertifikasi.add', $this->param);
     }
@@ -44,6 +48,10 @@ class PermintaanSertifikasiController extends Controller
             ->first();
         $this->param['dataUser'] = DB::table('petani')
             ->where('id_user', auth()->user()->id)
+            ->first();
+        $this->param['data'] = DB::table('lembaga')
+            ->where('t.id', $request->get('id'))
+            ->join('template_sertifikasi as t', 't.id_lembaga', 'lembaga.id')
             ->first();
             
         return view('permintaan-sertifikasi.upload-ketentuan', $this->param);
@@ -170,10 +178,13 @@ class PermintaanSertifikasiController extends Controller
                     ->get();
 
             }
+
+            $this->param['dataLembaga'] = DB::table('lembaga')
+                ->where('id', $request->get('idLembaga'))
+                ->first();
                 
             return view('permintaan-sertifikasi.lihat-permintaan', $this->param);
         } catch (Exception $e) {
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch (QueryException $e) {

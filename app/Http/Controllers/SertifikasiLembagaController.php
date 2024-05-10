@@ -191,17 +191,25 @@ class SertifikasiLembagaController extends Controller
     }
 
     public function showDetailSertifikasi($id) {
-        $this->param['data'] = DB::table('template_sertifikasi')
-            ->where('id', $id)
+        $this->param['data'] = DB::table('template_sertifikasi as t')
+            ->join('lembaga', 'lembaga.id', 't.id_lembaga')
+            ->where('t.id', $id)
+            ->select(
+                't.*',
+                'lembaga.nama_lembaga'
+            )
             ->first();
         
         if(auth()->check()) {
-            $idLembaga = DB::table('lembaga')
-                ->where('id_user', auth()->user()->id)
-                ->first()->id;
-            if($idLembaga == $this->param['data']->id_lembaga) {
-                $this->param['canEdit'] = true;
-            } else 
+            if(auth()->user()->role == 'Lembaga') {
+                $idLembaga = DB::table('lembaga')
+                    ->where('id_user', auth()->user()->id)
+                    ->first()->id;
+                if($idLembaga == $this->param['data']->id_lembaga) {
+                    $this->param['canEdit'] = true;
+                } else 
+                    $this->param['canEdit'] = false;
+            } else
                 $this->param['canEdit'] = false;
         } else
             $this->param['canEdit'] = false;
@@ -219,6 +227,14 @@ class SertifikasiLembagaController extends Controller
     }
 
     public function showPermintaanSertifikasi($id) {
+        $this->param['data'] = DB::table('template_sertifikasi as t')
+            ->join('lembaga', 'lembaga.id', 't.id_lembaga')
+            ->where('t.id', $id)
+            ->select(
+                't.*',
+                'lembaga.nama_lembaga'
+            )
+            ->first();
         $this->param['dataSertifikasi'] = DB::table('template_sertifikasi')
             ->where('id', $id)
             ->first();

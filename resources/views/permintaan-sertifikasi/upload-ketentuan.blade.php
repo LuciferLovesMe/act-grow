@@ -1,5 +1,15 @@
 @extends('layouts.template')
 
+@section('hero')
+    <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+        <p style="color: white">Layanan</p>
+        <hr style="background-color: white; color: white">
+        <h3 style="color: white">{{ ucwords($data->nama_lembaga) }}</h3>
+    </div>
+    </section>
+@endsection
+
 @section('content')
 <div class="inner-page">
     <div class="container">
