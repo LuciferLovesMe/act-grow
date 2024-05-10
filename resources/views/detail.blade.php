@@ -91,6 +91,11 @@
         color: #c59b08;
         }
 </style>
+
+@section('modal')
+    @include('penilaian-lembaga.modal')
+@endsection
+
 @section('content')
     <div class="inner-page">
         <div class="container mt-3">
@@ -108,7 +113,7 @@
                         <div class="col-md-12">
                             <img src="{{ asset('/upload/' . $data->foto_lembaga) }}" alt="" width="50%">
                         </div>
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center mt-2">
                             @if (auth()->check())
                                 @if (auth()->user()->role == 'Petani')
                                     <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
@@ -135,8 +140,60 @@
                         <h4 class="mt-3"><b>Review Lembaga</b></h4>
                         <hr>
                         <ul class="list-group list-group-flush">
+                            @if (auth()->check())
+                                @if (auth()->user()->role == 'Petani')
+                                    @php
+                                        $cekData = DB::table('penilaian')
+                                            ->where('id_lembaga', $data->id)
+                                            ->where('u.id', auth()->user()->id)
+                                            ->join('petani', 'petani.id', 'penilaian.id_petani')
+                                            ->join('users as u', 'u.id', 'petani.id_user')
+                                            ->select(
+                                                'penilaian.*',
+                                                'petani.nama_petani',
+                                                'u.id as user_id_petani'
+                                            )
+                                            ->get();
+                                    @endphp
+                                    @if (count($cekData) < 1)
+                                        <div class="list-group-item rounded">
+                                            <form action="{{ route('post-penilaian') }}" method="post" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="id_petani" value="{{ auth()->user()->id }}">
+                                                <input type="hidden" name="id_lembaga" value="{{ $data->id }}">
+                                                <div class="card border-0">
+                                                    <div class="card-header">
+                                                        <div class="d-flex bd-highlight">
+                                                            <div class="p-2 bd-highlight">
+                                                                <div class="rate">
+                                                                <input type="radio" id="star5" class="rate" name="rating" value="5"/>
+                                                                <label for="star5" title="text">5 stars</label>
+                                                                <input type="radio" id="star4" class="rate" name="rating" value="4"/>
+                                                                <label for="star4" title="text">4 stars</label>
+                                                                <input type="radio" id="star3" class="rate" name="rating" value="3"/>
+                                                                <label for="star3" title="text">3 stars</label>
+                                                                <input type="radio" id="star2" class="rate" name="rating" value="2">
+                                                                <label for="star2" title="text">2 stars</label>
+                                                                <input type="radio" id="star1" class="rate" name="rating" value="1"/>
+                                                                <label for="star1" title="text">1 star</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <textarea name="comment_petani" id="comment-petani" placeholder="Komentar" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="card-footer text-right align-items-right">
+                                                        <button class="btn btn-success ml-3">Simpan</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endif
+                                @endif
+                            @endif
                             @forelse ($dataReview as $item)
-                                <li class="list-group-item">
+                                <li class="list-group-item rounded mt-3">
                                     <div class="card border-0">
                                         <div class="card-body">
                                             <div class="row">
@@ -151,6 +208,25 @@
                                                             @endfor
                                                             </div>
                                                         </div>
+                                                        @if (auth()->check())
+                                                            @if (auth()->user()->id == $item->user_id_petani)
+                                                                <div class="col text-right d-flex justify-content-end">
+                                                                    <div class="dropdown">
+                                                                        <button class="border-0" style="background-color: #fff" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            <i class="fa fa-ellipsis-vertical"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a class="dropdown-item" id="ubah-komentar" data-id="{{ $item->id }}" data-komentar="{{ $item->komentar_petani }}" data-rating="{{ $item->nilai }}" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Ubah</a></li>
+                                                                            <li><a class="dropdown-item" id="hapus-komentar" href="#">Hapus</a></li>
+                                                                        </ul>
+                                                                      </div>
+                                                                </div>
+
+                                                                <form action="{{ route('hapus-penilaian', $item->id) }}" method="POST" enctype="multipart/form-data" id="form-hapus">
+                                                                    @csrf
+                                                                </form>
+                                                            @endif
+                                                        @endif
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col">
@@ -216,5 +292,32 @@
 @endsection
 
 @push('custom-script')
-    
+    <script>
+        $("#hapus-komentar").on('click', function(e) {
+            Swal.fire({
+                title: "Konfirmasi Hapus",
+                text: "Apakah Anda Yakin Ingin Menghapus Komentar?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#form-hapus").submit()
+                }
+            });
+        })
+
+        $("#ubah-komentar").on('click', function() {
+            var id = $(this).data('id')
+            var komen = $(this).data('komentar')
+            var rating = $(this).data('rating')
+            
+            $("#id-penilaian").val(id)
+            $("#comment-petani").val(komen)
+            $(`#star-modal-${rating}`).attr('checked', true)
+        })
+    </script>
 @endpush

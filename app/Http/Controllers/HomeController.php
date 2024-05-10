@@ -45,9 +45,11 @@ class HomeController extends Controller
             $this->param['dataReview'] = DB::table('penilaian')
                 ->where('id_lembaga', $id)
                 ->join('petani', 'petani.id', 'penilaian.id_petani')
+                ->join('users as u', 'u.id', 'petani.id_user')
                 ->select(
                     'penilaian.*',
-                    'petani.nama_petani'
+                    'petani.nama_petani',
+                    'u.id as user_id_petani'
                 )
                 ->get();
                 

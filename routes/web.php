@@ -33,6 +33,10 @@ Route::prefix('/artikel')->group(function() {
     Route::post('/report', [ArtikelController::class, 'report'])->name('report-artikel');
 });
 
+Route::post('/post-penilaian', [SertifikasiLembagaController::class, 'postPenilaian'])->name('post-penilaian');
+Route::post('/ubah-penilaian', [SertifikasiLembagaController::class, 'ubahPenilaian'])->name('ubah-penilaian');
+Route::post('/hapus-penilaian/{id}', [SertifikasiLembagaController::class, 'hapusPenilaian'])->name('hapus-penilaian');
+
 // Route::middleware('auth')->group(function (){
     // Route Upload Berkas ketentuan permintaan sertifikasi (Petani)
     Route::get('/permintaan-sertifikasi/upload-ketentuan', [PermintaanSertifikasiController::class, 'uploadKetentuan'])->name('upload-ketentuan');
