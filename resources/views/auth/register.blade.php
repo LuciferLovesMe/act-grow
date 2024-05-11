@@ -261,7 +261,7 @@
                         <select name="jenis_petani" id="" class="form-control" required>
                             <option value="">-- Jenis Petani --</option>
                             <option value="individu">Individu</option>
-                            <option value="kelompok_tani">Kelompok Tani</option>
+                            <option value="kelompok tani">Kelompok Tani</option>
                         </select>
                     </div>
                     <div class="col-md-6 mt-2">

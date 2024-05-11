@@ -4,6 +4,7 @@ use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PenilaianLembagaController;
 use App\Http\Controllers\PermintaanSertifikasiController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SertifikasiLembagaController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,14 @@ Route::prefix('/penilaian')->group(function() {
     Route::post('/post-lembaga', [SertifikasiLembagaController::class, 'postLembaga'])->name('post-lembaga');
     Route::post('/ubah-lembaga', [SertifikasiLembagaController::class, 'ubahBalasanLembaga'])->name('ubah-lembaga');
     Route::post('/hapus-lembaga/{id}', [SertifikasiLembagaController::class, 'hapusBalasanLembaga'])->name('hapus-lembaga');
+});
+
+Route::prefix('/profile')
+    ->name('profile.')
+    ->group(function() {
+        Route::get('/', [ProfileController::class, 'show'])->name('index');
+        Route::post('/post-lembaga/{id}', [ProfileController::class, 'postLembaga'])->name('post-lembaga');
+        Route::post('/post-petani/{id}', [ProfileController::class, 'postPetani'])->name('post-petani');
 });
 
 // Route::middleware('auth')->group(function (){
