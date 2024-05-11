@@ -1,11 +1,24 @@
 @extends('layouts.template')
 
+@section('hero')
+    <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+        <h3 style="color: white">Artikel</h3>
+        {{-- <h1>Welcome to <span>BizLand</span></h1>
+        <h2>We are team of talented designers making websites with Bootstrap</h2>
+        <div class="d-flex">
+        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+        </div> --}}
+    </div>
+    </section>
+@endsection
+
 @section('content')
     <div class="inner-page">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card mt-3">
                         <form action="{{ route('artikel.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="card-header">
