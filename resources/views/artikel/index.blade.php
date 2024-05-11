@@ -17,7 +17,7 @@
     <div class="inner-page">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 mb-3">
+                <div class="col-md-12 my-3">
                     @if (auth()->check())
                         @if (auth()->user()->role == 'Admin')
                             <a href="{{ route('artikel.create') }}">
@@ -32,13 +32,13 @@
                 @forelse ($data as $item)
                     <div class="col-md-4">
                         <a href="{{ route('artikel.show', $item->id) }}">
-                            <div class="card">
-                                <img src="{{ asset('/upload/' . $item->cover) }}" class="card-img-top" alt="...">
-                                <div class="card-body">
+                            <div class="card bg-dark text-white" style="">
+                                <img src="{{ asset('/upload/' . $item->cover) }}" class="card-img" alt="...">
+                                <div class="card-img-overlay">
                                   <h5 class="card-title">{{ $item->judul }}</h5>
                                   <p class="card-text">{{ date('d F Y', strtotime($item->tanggal_artikel)) }}</p>
                                 </div>
-                            </div>
+                              </div>
                         </a>
                     </div>
                 @empty

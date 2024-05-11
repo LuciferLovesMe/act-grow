@@ -58,7 +58,7 @@
                                     <input type="email" name="email" class="form-control" placeholder="Email" required>
                                 </div>
                                 <div class="col-md-6 mt-2">
-                                    <input type="number" name="no_hp" class="form-control" placeholder="No. HP" required>
+                                    <input type="text" name="no_hp" class="form-control" placeholder="No. HP" required onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                 </div>
                                 <div class="col-md-6 mt-2">
                                     <div class="input-group">
@@ -211,7 +211,7 @@
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
                     </div>
                     <div class="col-md-6 mt-2">
-                        <input type="number" name="no_hp" class="form-control" placeholder="No. HP" required>
+                        <input type="number" name="no_hp" class="form-control" placeholder="No. HP" required onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                     </div>
                     <div class="col-md-6 mt-2">
                         <div class="input-group">
@@ -261,7 +261,7 @@
                         <select name="jenis_petani" id="" class="form-control" required>
                             <option value="">-- Jenis Petani --</option>
                             <option value="individu">Individu</option>
-                            <option value="kelompok_tani">Kelompok Tani</option>
+                            <option value="kelompok tani">Kelompok Tani</option>
                         </select>
                     </div>
                     <div class="col-md-6 mt-2">
