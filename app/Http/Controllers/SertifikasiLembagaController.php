@@ -64,7 +64,7 @@ class SertifikasiLembagaController extends Controller
             DB::commit();
 
             Alert::success('Sukses', 'Berhasil menambahkan data sertifikasi.')->autoClose(10000);
-            return redirect()->route('sertifikasi-lembaga.index');
+            return redirect()->route('index');
         } catch (Exception $e) {
             DB::rollBack();
             Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
@@ -166,7 +166,7 @@ class SertifikasiLembagaController extends Controller
 
             DB::commit();
             Alert::success('Sukses', 'Berhasil mengubah data template sertifikasi');
-            return redirect()->route('sertifikasi-lembaga.index');
+            return redirect()->route('index');
         } catch (Exception $e) {
             DB::rollBack();
             Alert::error('Terjadi kesalahan.', $e->getMessage())->autoClose(10000);
