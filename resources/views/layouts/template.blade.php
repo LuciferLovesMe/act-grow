@@ -75,20 +75,22 @@
       <nav id="navbar" class="navbar">
         <ul>
           @if (auth()->check())
-              @if (auth()->user()->role == 'Lembaga')
-                  <li><a class="nav-link scrollto active" href="{{ route('index') }}">Lembaga Sertifikasi</a></li>
-                  <li><a class="nav-link scrollto" href="">Kontak</a></li>
-              @else
-                <li class="dropdown"><a href="#"><span>Layanan</span> <i class="bi bi-chevron-down"></i></a>
-                  <ul>
-                    <li><a href="{{ route('index') }}"><span><i class="fa fa-user"></i></span>Profil Lembaga Sertifikasi</a></li>
-                    <li><a href="#"><span><i class="fa fa-file"></i></span>Sertifikasi</a></li>
-                  </ul>
-                </li>
-              @endif
+              <li><a class="nav-link scrollto active" href="{{ route('index') }}">Lembaga Sertifikasi</a></li>
           @else
           @endif
-          <li><a class="nav-link scrollto" href="{{ route('artikel.index') }}">Artikel</a></li>
+          <li>
+            <a class="nav-link scrollto" href="{{ route('artikel.index') }}">
+              @if (auth()->check())
+                  @if (auth()->user()->role == 'Admin')
+                      Layanan Artikel
+                  @else
+                      Artikel
+                  @endif
+              @else
+                  Artikel
+              @endif
+            </a>
+          </li>
           @if (auth()->check())
             <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a>
               <ul>

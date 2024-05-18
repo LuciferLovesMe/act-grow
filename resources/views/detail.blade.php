@@ -131,7 +131,8 @@
                                 @if (auth()->user()->role == 'Petani')
                                     <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
                                 @elseif (auth()->user()->role == 'Lembaga')
-                                    <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
+                                    <a href="{{ route('profile.index') }}" class="btn btn-success">Profil</a>
+                                    <a href="{{ route('sertifikasi-lembaga.create') }}" class="btn btn-success">Tambah Sertifikasi</a>
                                 @else
                                     <a href="{{ route('profil-lembaga', $data->id) }}" class="btn btn-success">Ubah</a>
                                     <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>

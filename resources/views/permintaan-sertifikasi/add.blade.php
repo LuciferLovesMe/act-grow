@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-md-12 text-center mt-3">
                     <a href="{{ route('download-ketentuan-sertifikasi', $dataSertifikasi->id) }}">
-                        <p>Download Berkas Disini <span><i class="fa fa-arrow-down"></i></span></p>
+                        <p>Download Template Berkas <span><i class="fa fa-arrow-down"></i></span></p>
                     </a>
                     @if (auth()->check())
                         @if (auth()->user()->role == 'Petani')
