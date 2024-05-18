@@ -61,7 +61,10 @@
                     </div>
                 </div>
                 <div class="row justify-content-end mt-3">
-                    <div class="col-md-1 text-right justify-content-end align-self-end">
+                    <div class="col-md-2 text-right justify-content-end align-self-end">
+                        <a href="{{ route('show-detail-sertifikasi', $data->id) }}">
+                            <button type="button" class="btn btn-success">Batal</button>
+                        </a>
                         <button type="submit" class="btn btn-success">Ubah</button>
                     </div>
                 </div>
