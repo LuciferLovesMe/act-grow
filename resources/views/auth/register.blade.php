@@ -165,6 +165,27 @@
             e.preventDefault();
             var pass = $("#password").val();
             var confPass = $("#confirm-password").val()
+            var inputNull = []
+
+            $.each($("#row-form input"), function(i, value) {
+                console.log($(this).val());
+                if($(this).val().length < 1 || $(this).val() == null || $(this).val() == ''){
+                    if($(this).attr("name") == "nama_sertifikat[]" || $(this).attr("name") == "kebutuhan_sertifikat[]" || $(this).attr("name") == "masa_berlaku[]"){
+                        console.log($(this));
+                    } else {
+                        inputNull.push($(this).attr("name"))
+                    }
+                }
+            })
+            console.log(inputNull);
+
+            if(inputNull.length > 0) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Data yang anda masukkan tidak valid!",
+                    });
+            }
 
             if(confPass != pass) {
                 Swal.fire({
@@ -172,9 +193,12 @@
                     title: "Oops...",
                     text: "Konfirmasi Password Anda Salah!",
                     });
-            } else {
+            }
+            
+            if(confPass == pass && inputNull.length < 1) {
                 $("#form").submit()
             }
+            
                 
         })
 
