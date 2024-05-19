@@ -19,10 +19,21 @@
                 <div class="col-md-4">
                     <form action="{{ route('login') }}" method="post" id="form" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" placeholder="Username" class="form-control" autocomplete="username" name="username" id="username">
+                        <input type="text" placeholder="Username" class="form-control @error('username') is-invalid @enderror" autocomplete="username" name="username" id="username">
+                        @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+
                         <div class="input-group mt-2">
-                            <input type="password" name="password" class="form-control " placeholder="Password" id="password" autocomplete="new-password">
+                            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" id="password" autocomplete="new-password">
                             <button class="btn btn-outline-secondary btn-password" type="button" id=""><i class="fa fa-eye"></i></button>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
     
                         <div class="row mt-2">
