@@ -49,6 +49,7 @@ Route::prefix('/profile')
         Route::get('/', [ProfileController::class, 'show'])->name('index');
         Route::post('/post-lembaga/{id}', [ProfileController::class, 'postLembaga'])->name('post-lembaga');
         Route::post('/post-petani/{id}', [ProfileController::class, 'postPetani'])->name('post-petani');
+        Route::get('/show', [ProfileController::class, 'showProfile'])->name('show');
 });
 
 // Route::middleware('auth')->group(function (){

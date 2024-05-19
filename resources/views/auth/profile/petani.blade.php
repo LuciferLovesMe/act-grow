@@ -40,6 +40,7 @@
                                     <button class="btn btn-outline-secondary btn-password" type="button" id=""><i class="fa fa-eye"></i></button>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button class="btn btn-success" type="submit">

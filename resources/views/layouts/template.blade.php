@@ -92,16 +92,10 @@
             </a>
           </li>
           @if (auth()->check())
-            <li class="dropdown"><a href="#"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a>
-              <ul>
-                <li><a href="#"><span><i class="fa fa-user"></i></span>Profil</a></li>
-                <li><a href="#" id="btn-logout"><span><i class="fa fa-arrow-right-from-bracket"></i></span>Logout</a></li>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-              </ul>
-            </li>
+            <li class="dropdown"><a href="{{ route('profile.show') }}"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a></li>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
           @else
             <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
           @endif
