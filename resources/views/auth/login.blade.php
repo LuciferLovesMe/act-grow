@@ -17,17 +17,17 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <form action="{{ route('login') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('login') }}" method="post" id="form" enctype="multipart/form-data">
                         @csrf
-                        <input type="text" placeholder="Username" class="form-control" required autocomplete="username" name="username">
+                        <input type="text" placeholder="Username" class="form-control" autocomplete="username" name="username" id="username">
                         <div class="input-group mt-2">
-                            <input type="password" name="password" class="form-control " placeholder="Password" id="password" autocomplete="new-password" required>
+                            <input type="password" name="password" class="form-control " placeholder="Password" id="password" autocomplete="new-password">
                             <button class="btn btn-outline-secondary btn-password" type="button" id=""><i class="fa fa-eye"></i></button>
                         </div>
     
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <button class="btn btn-success w-100" type="submit">Login</button>
+                                <button class="btn btn-success w-100" type="button" id="btn-login">Login</button>
                             </div>
                             <div class="col-md-6">
                                 <a href="{{ route('register') }}"><button class="btn btn-outline-secondary w-100" type="button">Daftar</button></a>
@@ -51,6 +51,21 @@
                 $(this).children('i').removeClass('fa-eye')
                 $(this).children('i').addClass('fa-eye-slash')
                 $(this).parent().children('input').attr('type', 'text')
+            }
+        })
+
+        $("#btn-login").on('click', function (e) {
+            e.preventDefault()
+            var pass = $("#password").val()
+            var username = $("#username").val()
+            if(pass.length < 1 || username.length < 1 ){
+                Swal.fire({
+                    title: "Terjadi kesalahan!",
+                    text: "Semua data wajib diisi.",
+                    icon: "error"
+                });
+            } else {
+                $("#form").submit()
             }
         })
     </script>
