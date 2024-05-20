@@ -48,7 +48,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-right">
+                    <div class="card-footer text-end">
+                        <a href="{{ route('detail-lembaga') }}?id={{ $data->id }}">
+                            <button type="button" class="btn btn-danger">Batal</button>
+                        </a>
                         <button class="btn btn-success" type="submit">
                             Simpan
                         </button>

@@ -199,4 +199,22 @@ class ProfileController extends Controller
             return redirect()->back();
         }
     }
+
+    public function lihatSertifikat() {
+        $this->param['data'] = DB::table('sertifikasi')
+            ->join('petani', 'petani.id', 'sertifikasi.id_petani')
+            ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+            ->join('lembaga', 'lembaga.id', 'template_sertifikasi.id_lembaga')
+            ->where('petani.id_user', auth()->user()->id)
+            ->select(
+                'sertifikasi.*',
+                'template_sertifikasi.sertifikasi',
+                'petani.nama_petani',
+                'lembaga.nama_lembaga'
+            )
+            ->orderBy('sertifikasi.id', 'desc')
+            ->get();
+
+        return view('profile.sertifikat', $this->param);
+    }
 }

@@ -134,7 +134,7 @@
                                     <a href="{{ route('profile.index') }}" class="btn btn-success">Profil</a>
                                     <a href="{{ route('sertifikasi-lembaga.create') }}" class="btn btn-success">Tambah Sertifikasi</a>
                                 @else
-                                    <a href="{{ route('profil-lembaga', $data->id) }}" class="btn btn-success">Ubah</a>
+                                    <a href="{{ route('profil-lembaga', $data->id) }}" class="btn btn-success">Edit</a>
                                     <a href="{{ route('lihat-permintaaan') }}?idLembaga={{$data->id}}" class="btn btn-success">Permintaan Sertifikasi</a>
                                 @endif
                             @endif
@@ -171,7 +171,7 @@
                                     @endphp
                                     @if (count($cekData) < 1)
                                         <div class="list-group-item rounded">
-                                            <form action="{{ route('post-penilaian') }}" method="post" enctype="multipart/form-data">
+                                            <form action="{{ route('post-penilaian') }}" method="post" enctype="multipart/form-data" id="form-komentar">
                                                 @csrf
                                                 <input type="hidden" name="id_petani" value="{{ auth()->user()->id }}">
                                                 <input type="hidden" name="id_lembaga" value="{{ $data->id }}">
@@ -195,10 +195,11 @@
                                                         </div>
                                                     </div>
                                                     <div class="card-body">
-                                                        <textarea name="comment_petani" id="comment-petani" placeholder="Komentar" class="form-control"></textarea>
+                                                        <textarea name="comment_petani" id="komentar-petani" placeholder="Komentar" class="form-control"></textarea>
                                                     </div>
-                                                    <div class="card-footer text-right align-items-right">
-                                                        <button class="btn btn-success ml-3">Simpan</button>
+                                                    <div class="card-footer text-end">
+                                                        <button class="btn btn-danger" id="btn-batal" type="button">Batal</button>
+                                                        <button class="btn btn-success ml-3" type="submit">Kirim</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -250,7 +251,7 @@
                                                     <div class="form-group row">
                                                         <div class="col-md-12">
                                                             <a class="" data-bs-toggle="collapse" href="#collapseExample-{{ $item->id }}" role="button" aria-expanded="false" aria-controls="collapseExample-{{ $item->id }}">
-                                                                Selengkapnya
+                                                                Lihat Selengkapnya
                                                             </a>
                                                         </div>
                                                         <div class="col-md-12 mx-3 mt-2 collapse" id="collapseExample-{{ $item->id }}">
@@ -273,6 +274,17 @@
                                                                                 <form action="{{ route('hapus-lembaga', $item->id) }}" method="POST" enctype="multipart/form-data" id="form-hapus-lembaga">
                                                                                     @csrf
                                                                                 </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <div class="col">
+                                                                                <p>{{ $item->komentar_lembaga }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="form-group row">
+                                                                            <div class="col">
+                                                                                <p class="font-weight-bold "><b>{{ $data->nama_lembaga }}</b></p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="form-group row">
@@ -305,7 +317,7 @@
                                                                                         <textarea name="komentar_lembaga" id="komentar_lembaga" placeholder="Komentar Lembaga" class="form-control"></textarea>
                                                                                     </div>
                                                                                     <div class="card-footer text-right align-items-right d-flex justify-content-end">
-                                                                                        <button class="btn btn-success ml-3">Simpan</button>
+                                                                                        <button class="btn btn-success ml-3">Kirim</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
@@ -400,7 +412,7 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Ya",
-                cancelButtonText: "Tidak"
+                cancelButtonText: "Batal"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $("#form-hapus-lembaga").submit()
@@ -414,6 +426,13 @@
             
             $("#id-penilaian-lembaga").val(id)
             $("#comment-lembaga").val(komen)
+        })
+
+        $("#btn-batal").on('click', function () {
+            $("#komentar-petani").val('');
+            $("#form-komentar input[type=radio]").each(function(i, v) {
+                $(this).prop('checked', false);
+            })
         })
     </script>
 @endpush

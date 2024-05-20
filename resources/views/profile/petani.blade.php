@@ -35,12 +35,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-
+                        <div class="col-md-4 align-items-center justify-content-center align-middle">
+                            <div class="row align-items-center justify-content-center align-middle">
+                                <div class="col-md-12 text-center">
+                                    <a href="{{ route('profile.index') }}" class="btn btn-success">Edit Profil</a>
+                                </div>
+                                <div class="col-md-12 mt-3">
+                                    <div class="row">
+                                        <div class="col-md-6 text-end">
+                                            <a href="{{ route('index') }}" class="btn btn-success">Tambah Data</a>
+                                        </div>
+                                        <div class="col-md-6 text-left">
+                                            <a href="{{ route('profile.lihat-sertifikat') }}" class="btn btn-success">Sertifikat</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex align-items-right">
+                <div class="card-footer text-end">
                     <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
                 </div>
             </div>

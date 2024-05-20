@@ -61,7 +61,7 @@ class ArtikelController extends Controller
                 ]);
 
             DB::commit();
-            Alert::success('Sukses', 'Berhasil menambahkan data artikel.');
+            Alert::success('Sukses', 'Artikel Berhasil Dibuat.');
             return redirect()->route('artikel.index');
         } catch (Exception $e) {
             DB::rollBack();
@@ -141,7 +141,7 @@ class ArtikelController extends Controller
                     ]);
             }
             DB::commit();
-            Alert::success('Sukses', 'Berhasil mengubah data artikel');
+            Alert::success('Sukses', 'Artikel Berhasil Diubah.');
             return redirect()->route('artikel.index');
         } catch (Exception $e) {
             DB::rollBack();
@@ -209,8 +209,8 @@ class ArtikelController extends Controller
                     'status' => 1
                 ]);
             DB::commit();
-            Alert::success('Sukses', 'Berhasil mengkonfirmasi laporan artikel');
-            return redirect()->back();
+            Alert::success('Sukses', 'Berhasil mengkonfirmasi laporan artikel')->autoClose(10000);
+            return redirect()->route('artikel.edit', $id);
         } catch (Exception $e) {
             DB::rollBack();
             Alert::error('Terjadi kesalahan.', $e->getMessage());

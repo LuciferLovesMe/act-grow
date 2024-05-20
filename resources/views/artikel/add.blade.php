@@ -52,7 +52,7 @@
                             </div>
                             <div class="card-footer text-right d-flex justify-content-end p-2">
                                 <a href="{{ route('artikel.index') }}">
-                                    <button class="btn btn-secondary-outline">Batal</button>
+                                    <button type="button" class="btn btn-secondary-outline">Batal</button>
                                 </a>
                                 <button class="btn btn-success" type="submit">
                                     Simpan
