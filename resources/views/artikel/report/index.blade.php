@@ -79,11 +79,13 @@
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Ya",
-                cancelButtonText: "Tidak"
+                confirmButtonText: "Simpan",
+                cancelButtonText: "Batal"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(`#confirm-${id}`).submit()
+                } else {
+                    window.location.replace("{{ route('artikel.index') }}")
                 }
             });
         })
