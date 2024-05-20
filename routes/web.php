@@ -50,6 +50,7 @@ Route::prefix('/profile')
         Route::post('/post-lembaga/{id}', [ProfileController::class, 'postLembaga'])->name('post-lembaga');
         Route::post('/post-petani/{id}', [ProfileController::class, 'postPetani'])->name('post-petani');
         Route::get('/show', [ProfileController::class, 'showProfile'])->name('show');
+        Route::get('/lihat-sertifikat', [ProfileController::class, 'lihatSertifikat'])->name('lihat-sertifikat');
 });
 
 // Route::middleware('auth')->group(function (){

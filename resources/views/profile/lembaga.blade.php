@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex align-items-right">
+                <div class="card-footer text-end">
                     <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
                 </div>
             </div>
