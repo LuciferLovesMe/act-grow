@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -40,5 +43,11 @@ class LoginController extends Controller
     public function username()
     {
         return 'username';
+    }
+    
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        Alert::error('Terjadi kesalahan.', 'Data yang anda masukkan tidak valid')->autoClose(10000);
+        return redirect()->back();
     }
 }

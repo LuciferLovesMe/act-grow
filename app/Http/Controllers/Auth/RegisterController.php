@@ -161,16 +161,15 @@ class RegisterController extends Controller
             DB::commit();
             $this->guard()->login($user);
         
+            Alert::success('Berhasil.', 'Data tersimpan. Akun berhasil dibuat, selamat datang')->autoClose(10000);
             return $this->registered($request, $user)
                        ?: redirect($this->redirectPath());
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch (QueryException $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }

@@ -167,4 +167,36 @@ class ProfileController extends Controller
             return redirect()->back();
         }
     }
+
+    public function showProfile() {
+        if(auth()->user()->role == 'Lembaga') {
+            $this->param['data'] = DB::table('lembaga')
+                ->join('users', 'users.id', 'lembaga.id_user')
+                ->where('users.id', auth()->user()->id)
+                ->select(
+                    'users.username',
+                    'users.email',
+                    'lembaga.*'
+                )
+                ->first();
+            return view('profile.lembaga', $this->param);
+        } else if(auth()->user()->role == 'Petani') {
+            $this->param['data'] = DB::table('petani')
+                ->join('users', 'users.id', 'petani.id_user')
+                ->where('users.id', auth()->user()->id)
+                ->select(
+                    'users.username',
+                    'users.email',
+                    'petani.*'
+                )
+                ->first();
+            return view('profile.petani', $this->param);
+        } else if(auth()->user()->role == 'Admin') {
+            // return auth()->user();
+            $this->param['data'] = auth()->user();
+            return view('profile.admin', $this->param);
+        } else {
+            return redirect()->back();
+        }
+    }
 }
