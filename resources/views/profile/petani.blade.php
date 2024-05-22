@@ -1,5 +1,9 @@
 @extends('layouts.template')
 
+@section('modal')
+    @include('profile.modal.upload-arsip')
+@endsection
+
 @section('content')
     <div class="inner-page mt-3 mb-3">
         <div class="container">
@@ -43,7 +47,9 @@
                                 <div class="col-md-12 mt-3">
                                     <div class="row">
                                         <div class="col-md-6 text-end">
-                                            <a href="{{ route('index') }}" class="btn btn-success">Tambah Data</a>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                              Tambah Data
+                                            </button>
                                         </div>
                                         <div class="col-md-6 text-left">
                                             <a href="{{ route('profile.lihat-sertifikat') }}" class="btn btn-success">Sertifikat</a>

@@ -3,7 +3,7 @@
 @section('hero')
     <section id="hero" class="d-flex align-items-center">
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
-        <p style="color: white">Layanan</p>
+        <p style="color: white">Arsip Sertifikasi</p>
         <hr style="background-color: white; color: white">
     </div>
     </section>
@@ -33,7 +33,6 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Nama Lembaga</th>
                                 <th class="text-center">Nama Sertifikat</th>
-                                <th class="text-center">Status Sertifikasi</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -43,18 +42,13 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="text-center">{{ $item->nama_lembaga }}</td>
                                     <td class="text-center">{{ $item->sertifikasi }}</td>
-                                    <td class="text-center">{{ ucwords($item->status_sertifikasi) }}</td>
                                     <td class="text-center">
-                                        @if ($item->status_sertifikasi == 'selesai')
-                                            <a href="{{ route('download-sertifikat', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Lihat Sertifikat</a>
-                                        @else
-                                            -
-                                        @endif
+                                        <a href="{{ route('profile.download-sertifikat', $item->id) }}" class="btn btn-success"><i class="fa fa-eye"></i> Lihat Sertifikat</a>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center" colspan="5">Belum Ada Permintaan Sertifikasi.</td>
+                                    <td class="text-center" colspan="4">Belum Ada Permintaan Sertifikasi.</td>
                                 </tr>
                             @endforelse
                         </tbody>
