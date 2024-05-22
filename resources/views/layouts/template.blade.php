@@ -75,11 +75,11 @@
       <nav id="navbar" class="navbar">
         <ul>
           @if (auth()->check())
-              <li><a class="nav-link scrollto active" href="{{ route('index') }}">Lembaga Sertifikasi</a></li>
+              <li><a class="nav-link scrollto {{ (request()->is('/') || request()->segment(1) == 'detail-lembaga' || request()->segment(1) == 'sertifikasi-lembaga' || request()->segment(1) == 'permintaan-sertifikasi') ? 'active' : '' }}" href="{{ route('index') }}">Lembaga Sertifikasi</a></li>
           @else
           @endif
           <li>
-            <a class="nav-link scrollto" href="{{ route('artikel.index') }}">
+            <a class="nav-link scrollto {{ (request()->segment(1) == 'artikel') ? 'active' : '' }}" href="{{ route('artikel.index') }}">
               @if (auth()->check())
                   @if (auth()->user()->role == 'Admin')
                       Layanan Artikel
@@ -92,12 +92,12 @@
             </a>
           </li>
           @if (auth()->check())
-            <li class="dropdown"><a href="{{ route('profile.show') }}"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a></li>
+            <li class="dropdown"><a class="{{ request()->segment(1) == 'profile' ? 'active' : '' }}" href="{{ route('profile.show') }}"><span>{{ Auth::user()->name }}</span> <i class="fa fa-user"></i></a></li>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf
             </form>
           @else
-            <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
+            <li><a class="nav-link scrollto {{ (request()->is('login')) ? 'active' : '' }}" href="{{ route('login') }}">Login</a></li>
           @endif
       </nav><!-- .navbar -->
 

@@ -90,11 +90,15 @@ class ProfileController extends Controller
                     ->update([
                         'name' => $request->name,
                         'username' => $request->username,
-                        'password' => Hash::make($request->password),
+                        // 'password' => Hash::make($request->password),
                         'email' => $request->email,
                         'updated_at' => now()
                     ]);
             }
+            
+            $dataOld = DB::table('lembaga')
+                ->where('id_user', $id)
+                ->first();
             
             DB::table('lembaga')
                 ->where('id_user', $id)
@@ -104,8 +108,8 @@ class ProfileController extends Controller
                     'alamat_lembaga' => $request->alamat,
                     'no_hp_lembaga' => $request->no_hp,
                     'deskripsi_lembaga' => $request->deskripsi,
-                    'bukti_akreditasi' => $request->file('bukti_akreditasi') != null ? 'dokumen-users/lembaga/' . $id . '/bukti-akreditasi/' . $filenameAkreditasi : null,
-                    'foto_lembaga' => $request->file('foto') != null ? 'dokumen-users/lembaga/' . $id . '/bukti-foto/' . $filenameFoto : null,
+                    'bukti_akreditasi' => $request->file('bukti_akreditasi') != null ? 'dokumen-users/lembaga/' . $id . '/bukti-akreditasi/' . $filenameAkreditasi : $dataOld->bukti_akreditasi,
+                    'foto_lembaga' => $request->file('foto') != null ? 'dokumen-users/lembaga/' . $id . '/bukti-foto/' . $filenameFoto : $dataOld->foto,
                 ]);
             DB::commit();
 
@@ -140,7 +144,7 @@ class ProfileController extends Controller
                     ->update([
                         'name' => $request->name,
                         'username' => $request->username,
-                        'password' => Hash::make($request->password),
+                        // 'password' => Hash::make($request->password),
                         'updated_at' => now()
                     ]);
             }
