@@ -190,4 +190,51 @@ class PermintaanSertifikasiController extends Controller
             return redirect()->back();
         }
     }
+
+    public function uploadArsip(Request $request) {
+        DB::beginTransaction();
+        try {
+            $idPetani = DB::table('petani')
+                ->where('id_user', auth()->user()->id)
+                ->first()?->id;
+
+            $idTemplateSertifikasi = $request->id_template_sertifikasi;
+            // Dokumen upload
+            $file = $request->file('file_arsip');
+            $filename = $file->getClientOriginalName();
+            $filePath = public_path() . '/upload/arsip-sertifikat/' . $idTemplateSertifikasi . '/' . $idPetani;
+            if(!File::isDirectory($filePath)) {
+                File::makeDirectory($filePath, 493, true);
+            }
+            $file->move($filePath, $filename);
+            DB::table('arsip_sertifikat')
+                ->insert([
+                    'id_petani' => $idPetani,
+                    'id_template_sertifikasi' => $request->id_template_sertifikasi,
+                    'tahun' => $request->tahun,
+                    'created_at' => now(),
+                    'file' => '/upload/arsip-sertifikat/' . $idTemplateSertifikasi . '/' . $idPetani . '/' . $filename
+                ]);
+            DB::commit();
+
+            Alert::success('Sukses', 'Berhasil menambahkan arsip sertifikat.');
+            return redirect()->back();
+        } catch (Exception $e) {
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        } catch (QueryException $e) {
+            return $e;
+            Alert::error('Terjadi kesalahan', $e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function downloadSertifikat($id) {
+        $data = DB::table('arsip_sertifikat')
+            ->where('id', $id)
+            ->first();
+
+        $file = public_path() . $data->file;
+        return response()->download($file);
+    }
 }

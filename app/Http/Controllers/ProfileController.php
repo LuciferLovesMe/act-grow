@@ -194,6 +194,14 @@ class ProfileController extends Controller
                     'petani.*'
                 )
                 ->first();
+            $this->param['dataSertifikat'] = DB::table('sertifikasi')
+                ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+                ->where('id_petani', $this->param['data']->id)
+                ->where('status_sertifikasi', 'selesai')
+                ->select('template_sertifikasi.*')
+                ->get();
+
+            // return $this->param;
             return view('profile.petani', $this->param);
         } else if(auth()->user()->role == 'Admin') {
             // return auth()->user();
@@ -205,18 +213,18 @@ class ProfileController extends Controller
     }
 
     public function lihatSertifikat() {
-        $this->param['data'] = DB::table('sertifikasi')
-            ->join('petani', 'petani.id', 'sertifikasi.id_petani')
-            ->join('template_sertifikasi', 'template_sertifikasi.id', 'sertifikasi.id_template_sertifikasi')
+        $this->param['data'] = DB::table('arsip_sertifikat')
+            ->join('petani', 'petani.id', 'arsip_sertifikat.id_petani')
+            ->join('template_sertifikasi', 'template_sertifikasi.id', 'arsip_sertifikat.id_template_sertifikasi')
             ->join('lembaga', 'lembaga.id', 'template_sertifikasi.id_lembaga')
             ->where('petani.id_user', auth()->user()->id)
             ->select(
-                'sertifikasi.*',
+                'arsip_sertifikat.*',
                 'template_sertifikasi.sertifikasi',
                 'petani.nama_petani',
                 'lembaga.nama_lembaga'
             )
-            ->orderBy('sertifikasi.id', 'desc')
+            ->orderBy('arsip_sertifikat.id', 'desc')
             ->get();
 
         return view('profile.sertifikat', $this->param);
