@@ -42,9 +42,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer text-right">
+                    <div class="card-footer text-end">
+                        <a href="{{ route('profile.show') }}">
+                            <button type="button" class="btn btn-success">Tidak</button>
+                        </a>
                         <button class="btn btn-success" type="submit">
-                            Simpan
+                            Ya
                         </button>
                     </div>
                 </form>

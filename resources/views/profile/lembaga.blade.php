@@ -65,6 +65,9 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
+                    <a href="{{ route('profile.index') }}">
+                        <button type="button" class="btn btn-success">Ubah</button>
+                    </a>
                     <button type="button" class="btn btn-danger" id="btn-logout">Logout</button>
                 </div>
             </div>
