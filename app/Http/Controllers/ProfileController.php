@@ -78,6 +78,7 @@ class ProfileController extends Controller
                 DB::table('users')
                     ->where('id', $id)
                     ->update([
+                        'name' => $request->name,
                         'username' => $request->username,
                         'password' => Hash::make($request->password),
                         'email' => $request->email,
@@ -87,6 +88,7 @@ class ProfileController extends Controller
                 DB::table('users')
                     ->where('id', $id)
                     ->update([
+                        'name' => $request->name,
                         'username' => $request->username,
                         'password' => Hash::make($request->password),
                         'email' => $request->email,
@@ -111,12 +113,10 @@ class ProfileController extends Controller
             return redirect()->route('index');
         } catch(Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch(QueryException $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }
@@ -129,6 +129,7 @@ class ProfileController extends Controller
                 DB::table('users')
                     ->where('id', $id)
                     ->update([
+                        'name' => $request->name,
                         'username' => $request->username,
                         'password' => Hash::make($request->password),
                         'updated_at' => now()
@@ -137,6 +138,7 @@ class ProfileController extends Controller
                 DB::table('users')
                     ->where('id', $id)
                     ->update([
+                        'name' => $request->name,
                         'username' => $request->username,
                         'password' => Hash::make($request->password),
                         'updated_at' => now()
@@ -157,12 +159,10 @@ class ProfileController extends Controller
             return redirect()->route('index');
         } catch(Exception $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         } catch(QueryException $e) {
             DB::rollBack();
-            return $e;
             Alert::error('Terjadi kesalahan', $e->getMessage());
             return redirect()->back();
         }
