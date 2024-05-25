@@ -19,9 +19,6 @@
                                 <div class="input-group">
                                     <a href="{{ route('download-bukti-verif-lembaga', $data->id) }}" class="input-group-text" for="inputGroupFile01"><i class="fa fa-file-arrow-down"></i></a>
                                     <input type="file" name="bukti_akreditasi" class="form-control" placeholder="Bukti Akreditasi">
-                                    <div class="input-group-text">
-                                      <input class="form-check-input mt-0" type="checkbox" value="1" name="verif" aria-label="Checkbox for following text input" @checked($data->status_verifikasi)>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mt-2">

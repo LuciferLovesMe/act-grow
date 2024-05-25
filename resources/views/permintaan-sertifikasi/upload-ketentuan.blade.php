@@ -33,7 +33,7 @@
                         </div>
                         <label for="nama_petani" class="mt-2 col-md-4 col-form-label">Pilih File ZIP atau RAR</label>
                         <div class="mt-2 col-md-8">
-                            <input type="file" class="mt-2 form-control" name="file_ketentuan">
+                            <input type="file" class="mt-2 form-control" name="file_ketentuan" accept=".zip,.rar,.7zip">
                         </div>
                         <div class="col-md-4 mt-3 text-right d-flex justify-content-end">
                             <a href="{{ route('permintaan-sertifikasi.create') }}?id={{ $dataSertifikasi->id }}">

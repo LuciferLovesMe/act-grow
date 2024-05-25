@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card mt-3">
-                        <form action="{{ route('artikel.update', $data->id) }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ route('artikel.update', $data?->id) }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="card-header">
@@ -30,7 +30,7 @@
                                     <div class="col-md-6 text-right">
                                         <div class="input-group">
                                             <label class="input-group-text" for="tanggal">Tanggal</label>
-                                            <input type="date" class="form-control" required name="tanggal" placeholder="Tanggal Artikel" value="{{ $data->tanggal_artikel }}">
+                                            <input type="date" class="form-control" required name="tanggal" placeholder="Tanggal Artikel" value="{{ $data?->tanggal_artikel }}">
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input type="text" name="judul" class="form-control" required placeholder="Judul Artikel" value="{{ $data->judul }}">
+                                        <input type="text" name="judul" class="form-control" required placeholder="Judul Artikel" value="{{ $data?->judul }}">
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="input-group">
@@ -47,13 +47,13 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-2">
-                                        <textarea name="teks_artikel" class="form-control" id="text-artikel" cols="" rows="" placeholder="Teks Artikel">{{ $data->teks_artikel }}</textarea>
+                                        <textarea name="teks_artikel" class="form-control" id="text-artikel" cols="" rows="" placeholder="Teks Artikel">{{ $data?->teks_artikel }}</textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer text-right d-flex justify-content-end p-2">
                                 <a href="{{ route('artikel.index') }}">
-                                    <button class="btn btn-secondary-outline">Batal</button>
+                                    <button type="button" class="btn btn-secondary-outline">Batal</button>
                                 </a>
                                 <button class="btn btn-success" type="submit">
                                     Simpan

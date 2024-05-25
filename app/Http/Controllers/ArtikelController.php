@@ -91,9 +91,14 @@ class ArtikelController extends Controller
      */
     public function edit(string $id)
     {
-        $this->param['data'] = DB::table('artikel')
+        $data = DB::table('artikel')
             ->where('id', $id)
             ->first();
+        if ($data == null) {
+            Alert::error('Terjadi kesalahan', 'Data tidak ditemukan di sistem.');
+            return redirect()->back();
+        }
+        $this->param['data'] = $data;
 
         return view('artikel.edit', $this->param);
     }
