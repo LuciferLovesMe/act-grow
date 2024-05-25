@@ -214,8 +214,12 @@ class ArtikelController extends Controller
                     'status' => 1
                 ]);
             DB::commit();
+            $idArtikel = DB::table('report_artikel')
+                ->where('id', $id)
+                ->select('id_artikel')
+                ->first();
             Alert::success('Sukses', 'Berhasil mengkonfirmasi laporan artikel')->autoClose(10000);
-            return redirect()->route('artikel.edit', $id);
+            return redirect()->route('artikel.edit', $idArtikel->id_artikel);
         } catch (Exception $e) {
             DB::rollBack();
             Alert::error('Terjadi kesalahan.', $e->getMessage());
